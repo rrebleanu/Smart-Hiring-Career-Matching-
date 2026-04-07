@@ -1,7 +1,7 @@
-package com.example.demo.repository;
+package com.project.demo.repository;
 
 
-import com.example.demo.model.User;
+import com.project.demo.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository

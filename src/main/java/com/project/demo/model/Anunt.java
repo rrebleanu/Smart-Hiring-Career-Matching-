@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "anunturi")
-public class Anunt {
+public class Anunt{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,8 @@ public class Anunt {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_companie")
-    private Companie companie;
+    @JoinColumn(name = "id_angajator")
+    private Angajator angajator;
 
     public Integer getIdAnunt() { return idAnunt; }
     public void setIdAnunt(Integer idAnunt) { this.idAnunt = idAnunt; }
@@ -50,7 +50,6 @@ public class Anunt {
 
     public String getDomeniuJob() { return domeniuJob; }
     public void setDomeniuJob(String domeniuJob) { this.domeniuJob = domeniuJob; }
-
-    public Companie getCompanie() { return companie; }
-    public void setCompanie(Companie companie) { this.companie = companie; }
+    public Angajator getAngajator() { return angajator; }
+    public void setAngajator(Angajator angajator) { this.angajator = angajator; }
 }

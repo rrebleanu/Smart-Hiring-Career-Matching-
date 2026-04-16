@@ -15,12 +15,12 @@ public class Candidat {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "id_cv")
-    private CV cv;
-
-    @OneToMany(mappedBy = "candidat")
-    private List<Aplicare> aplicari;
+//    @OneToOne
+//    @JoinColumn(name = "id_cv")
+//    private CV cv;
+//
+//    @OneToMany(mappedBy = "candidat")
+//    private List<Aplicare> aplicari;
 
 
     public Integer getIdCandidat() {
@@ -39,20 +39,20 @@ public class Candidat {
         this.user = user;
     }
 
-    public CV getCv() {
-        return cv;
-    }
+//    public CV getCv() {
+//        return cv;
+//    }
 
-    public void setCv(CV cv) {
-        this.cv = cv;
-    }
+//    public void setCv(CV cv) {
+//        this.cv = cv;
+//    }
 
-    // Getteri și setteri pentru noua listă
-    public List<Aplicare> getAplicari() {
-        return aplicari;
-    }
-
-    public void setAplicari(List<Aplicare> aplicari) {
-        this.aplicari = aplicari;
-    }
+//    // Getteri și setteri pentru noua listă
+//    public List<Aplicare> getAplicari() {
+//        return aplicari;
+//    }
+//
+//    public void setAplicari(List<Aplicare> aplicari) {
+//        this.aplicari = aplicari;
+//    }
 }

@@ -14,8 +14,12 @@ public class CV {
     private String experienta;
     private String domeniu;
 
-    @OneToOne(mappedBy = "cv")
+    @ManyToOne
+    @JoinColumn(name = "id_candidat")
     private Candidat candidate;
+
+//    @OneToOne(mappedBy = "cv")
+//    private Candidat candidate;
 
     public Integer getIdCv() {
         return idCv;

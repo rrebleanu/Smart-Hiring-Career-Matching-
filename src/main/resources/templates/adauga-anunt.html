@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Adauga Anunt</title></head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Adauga Anunt</h1>
+
+<form th:action="@{/anunturi/adauga}" th:object="${anunt}" method="post">
+
+    <label>Titlu:</label>
+    <input type="text" th:field="*{titlu}" /><br/>
+
+    <label>Descriere:</label>
+    <textarea th:field="*{descriereJob}"></textarea><br/>
+
+    <label>Salariu Min:</label>
+    <input type="number" th:field="*{salariuMin}" /><br/>
+
+    <label>Salariu Max:</label>
+    <input type="number" th:field="*{salariuMax}" /><br/>
+
+    <label>Timp de Lucru:</label>
+    <input type="text" th:field="*{timpDeLucru}" /><br/>
+
+    <label>Experienta Necesara:</label>
+    <input type="text" th:field="*{timpExperientaNecesar}" /><br/>
+
+    <label>Domeniu Job:</label>
+    <input type="text" th:field="*{domeniuJob}" /><br/>
+
+    <button type="submit">Salveaza</button>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:replace="~{fragments/head :: head}"></div>
+
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Lista Anunturi</h1>
+<a href="/anunturi/adauga">Adauga Anunt</a>
+
+<table>
+    <tr>
+        <th>Titlu</th>
+        <th>Domeniu</th>
+        <th>Salariu Min</th>
+        <th>Salariu Max</th>
+        <th>Timp Lucru</th>
+        <th>Experienta</th>
+    </tr>
+    <tr th:each="anunt : ${anunturi}">
+        <td th:text="${anunt.titlu}"></td>
+        <td th:text="${anunt.domeniuJob}"></td>
+        <td th:text="${anunt.salariuMin}"></td>
+        <td th:text="${anunt.salariuMax}"></td>
+        <td th:text="${anunt.timpDeLucru}"></td>
+        <td th:text="${anunt.timpExperientaNecesar}"></td>
+    </tr>
+</table>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

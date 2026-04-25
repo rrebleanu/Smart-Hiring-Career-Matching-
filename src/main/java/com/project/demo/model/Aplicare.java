@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "aplicari")
 public class Aplicare {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAplicare;
@@ -19,7 +18,6 @@ public class Aplicare {
     @ManyToOne
     @JoinColumn(name = "id_anunt")
     private Anunt anunt;
-
 
     public Integer getIdAplicare() {
         return idAplicare;

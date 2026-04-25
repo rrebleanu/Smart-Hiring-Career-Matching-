@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class AnuntController {
 
 //    @PostMapping(path="/add") // Accepts POST requests
-
+//
 //    public String addNewAnunt (@RequestBody Anunt newAnunt) {
 //        // Saves the new job advertisement (titlu, descriere, salariu etc.)
 //

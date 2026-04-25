@@ -9,12 +9,12 @@
         Smart Hiring Career Matching
     </title>
 
-    <link rel="stylesheet" th:href="@{/css/desprecon.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 
 <body>
 <header>
-    <h1>Bine ati venit!</h1>
+    <h1>Cautare Job</h1>
 </header>
 <nav>
     <ul>
@@ -25,8 +25,23 @@
         <li><a th:href="@{/contact}">Contact</a></li>
     </ul>
 </nav>
-<h2> Aici puteti gasi jobul mult dorit</h2>
-<p>Doar dati click pe butoanele din meniu si inregistrati-va/logati-va pentru a incepe cautarea.</p>
+
+<section class="companii-val">
+    <h2>Companii-le care fac parte din programul nostru</h2>
+    <ul>
+        <li>
+            <p>Company: XYZ Design</p>
+            <p>Location: India</p>
+            <p>Description: Good Web Developer</p>
+        </li>
+        <li>
+            <p>Company: XYZ Design</p>
+            <p>Location: India </p>
+            <p>Description:Good Graphic Designer</p>
+        </li>
+    </ul>
+</section>
+
 <footer>
     <p>© 2026 Job Search Portal</p>
 </footer>

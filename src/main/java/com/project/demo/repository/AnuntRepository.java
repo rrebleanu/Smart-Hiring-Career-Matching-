@@ -8,7 +8,11 @@ import java.util.List;
 public interface AnuntRepository extends CrudRepository<Anunt, Integer> {
     // Metodă pentru a afisa toate anunțurile unei anumite companii
 //    List<Anunt> findByCompanie(Companie companie);
-//
-//    // Metodă pentru filtrare joburi
-//    List<Anunt> findByDomeniuJob(String domeniuJob);
+
+    // Metodă corectată pentru a afisa toate anunțurile unei anumite companii
+    // In Spring o sa caut: Anunt -> Angajator -> Companie
+    List<Anunt> findByAngajatorCompanie(Companie companie);
+
+    // Metodă pentru filtrare joburi
+    List<Anunt> findByDomeniuJob(String domeniuJob);
 }

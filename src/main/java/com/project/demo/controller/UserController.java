@@ -2,6 +2,7 @@ package com.project.demo.controller;
 
 import com.project.demo.model.User;
 import com.project.demo.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // Combines @Controller and @ResponseBody for modern APIs
@@ -28,5 +29,13 @@ public class UserController {
     public Iterable<User> getAllUsers() {
         // Fetch all users from the database and return them automatically as JSON
         return userRepository.findAll();
+    }
+
+    @GetMapping("/jobs")
+    public String showJobs(HttpSession session) {
+        if (session.getAttribute("userLogat") == null) {
+            return "redirect:/login"; // Kick them back to login
+        }
+        return "jobs";
     }
 }

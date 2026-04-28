@@ -29,11 +29,4 @@ public class CompanieController {
         return companieRepository.findAll();
     }
 
-    @GetMapping("/jobs")
-    public String showJobs(HttpSession session) {
-        if (session.getAttribute("userLogat") == null) {
-            return "redirect:/login"; // Kick them back to login
-        }
-        return "jobs";
-    }
 }

@@ -18,8 +18,10 @@
 <nav>
     <ul>
         <li><a th:href="@{/}">Home</a></li>
-        <li><a th:href="@{/jobs}">Jobs</a></li>
-        <li><a th:href="@{/companii}">Companii</a></li>
+        <li th:if="${session.userLogat == null}"><a th:href="@{/login}">Login</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/logout}">Logout</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/jobs}">Jobs</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/companii}">Companii</a></li>
         <li><a th:href="@{/despre}">Despre Noi</a></li>
         <li><a th:href="@{/contact}">Contact</a></li>
     </ul>

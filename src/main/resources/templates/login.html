@@ -7,8 +7,18 @@
     <link rel="stylesheet" th:href="@{/css/styleslogin.css}">
 </head>
 <body>
-<header><h1>Job Search Portal</h1></header>
-
+<header><h1>Smart Hiring Career Matching</h1></header>
+<nav>
+    <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li th:if="${session.userLogat == null}"><a th:href="@{/login}">Login</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/logout}">Logout</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/jobs}">Jobs</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/companii}">Companii</a></li>
+        <li><a th:href="@{/despre}">Despre Noi</a></li>
+        <li><a th:href="@{/contact}">Contact</a></li>
+    </ul>
+</nav>
 <div class="auth-container">
     <div class="auth-card">
         <button class="social-btn">🔵 Continuă cu Facebook</button>

@@ -3,6 +3,7 @@ package com.project.demo.controller;
 import com.project.demo.model.Companie;
 import com.project.demo.repository.CompanieRepository;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpSession;
 
 @RestController // This means the class handles web requests and returns data directly
 @RequestMapping(path="/api/companie") // URLs will start with /api/companie
@@ -26,5 +27,13 @@ public class CompanieController {
     public Iterable<Companie> getAllCompanii() {
         // Return a list of all companies from the database
         return companieRepository.findAll();
+    }
+
+    @GetMapping("/jobs")
+    public String showJobs(HttpSession session) {
+        if (session.getAttribute("userLogat") == null) {
+            return "redirect:/login"; // Kick them back to login
+        }
+        return "jobs";
     }
 }

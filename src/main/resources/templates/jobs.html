@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+            "width=device-width, initial-scale=1.0">
+    <title>
+        Smart Hiring Career Matching
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/job.css}" />
+</head>
+
+<body>
+<header>
+    <h1>Cautare Job</h1>
+</header>
+<nav>
+    <ul>
+        <li><a th:href="@{/}">Home</a></li>
+        <li th:if="${session.userLogat == null}"><a th:href="@{/login}">Login</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/logout}">Logout</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/jobs}">Jobs</a></li>
+        <li th:if="${session.userLogat != null}"><a th:href="@{/companii}">Companii</a></li>
+        <li><a th:href="@{/despre}">Despre Noi</a></li>
+        <li><a th:href="@{/contact}">Contact</a></li>
+    </ul>
+</nav>
+<section class="search">
+    <h2>Gasiti-va job-ul dorit.</h2>
+    <form action="#" method="get">
+        <input type="text" name="keywords"
+               placeholder="Keywords">
+        <input type="text" name="location"
+               placeholder="Location">
+        <input type="text" name="company"
+               placeholder="Company">
+        <button type="submit">
+            Search
+        </button>
+    </form>
+</section>
+
+<section class="job-listings">
+    <h2>Latest Job Listings</h2>
+    <ul>
+        <li>
+            <h3>Web Developer</h3>
+            <p>Company: ABC Tech</p>
+            <p>Location: India</p>
+            <p>Description: Good Web Developer</p>
+            <a href="#">Apply Now</a>
+        </li>
+        <li>
+            <h3>Graphic Designer</h3>
+            <p>Company: XYZ Design</p>
+            <p>Location: India </p>
+            <p>Description:Good Graphic Designer</p>
+            <a href="#">Apply Now</a>
+        </li>
+        <li>
+            <h3>Web Developer</h3>
+            <p>Company: ABC Tech</p>
+            <p>Location: India</p>
+            <p>Description: Good Web Developer</p>
+            <a href="#">Apply Now</a>
+        </li>
+        <li>
+            <h3>Web Developer</h3>
+            <p>Company: ABC Tech</p>
+            <p>Location: India</p>
+            <p>Description: Good Web Developer</p>
+            <a href="#">Apply Now</a>
+        </li>
+    </ul>
+</section>
+
+<footer>
+    <p>© 2026 Job Search Portal</p>
+</footer>
+</body>
+
+</html>

@@ -1,55 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content=
-            "width=device-width, initial-scale=1.0">
-    <title>
-        Design a Job Search Portal
-        using HTML and CSS
-    </title>
 
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<div th:replace="~{fragments/head :: head}"></div>
+
 
 <body>
 <header>
-    <h1>Job Search Portal</h1>
+    <h1>Bine ati venit!</h1>
 </header>
-<nav>
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Jobs</a></li>
-        <li><a href="#">Companies</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact</a></li>
-    </ul>
-</nav>
-<section class="search">
-    <h2>Find Your Dream Job</h2>
-    <form action="#" method="get">
-        <input type="text" name="keywords"
-               placeholder="Keywords">
-        <input type="text" name="location"
-               placeholder="Location">
-        <input type="text" name="company"
-               placeholder="Company">
-        <button type="submit">
-            Search
-        </button>
-    </form>
-</section>
 
-<section class="job-listings">
-    <h2>Latest Job Listings</h2>
-    <ul>
-    </ul>
-</section>
+<div th:replace="~{fragments/nav :: nav}"></div>
 
-<footer>
-    <p>© 2023 Job Search Portal</p>
-</footer>
+<h2>Aici puteti gasi jobul mult dorit</h2>
+<p>Doar dati click pe butoanele din meniu si inregistrati-va/logati-va pentru a incepe cautarea.</p>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 
 </html>

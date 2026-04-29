@@ -6,31 +6,11 @@ import org.jspecify.annotations.Nullable;
 
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAdmin;
-
-    @OneToOne
-    @JoinColumn (name = "id_user")
-
-    private User user;
-
-    public Integer getIdAdmin() {
-        return idAdmin;
+    public Admin() {
+        this.setRol("ADMIN"); // setat automat la creare
     }
 
-    public void setIdAdmin(Integer idAdmin) {
-        this.idAdmin = idAdmin;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
 

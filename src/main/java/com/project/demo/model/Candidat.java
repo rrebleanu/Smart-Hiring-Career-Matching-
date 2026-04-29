@@ -4,39 +4,11 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "candidates")
-public class Candidat {
+@Table(name = "candidati")
+public class Candidat extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCandidat;
-
-    @OneToOne
-    @JoinColumn(name = "id_user")
-    private User user;
-
-//    @OneToOne
-//    @JoinColumn(name = "id_cv")
-//    private CV cv;
-//
-//    @OneToMany(mappedBy = "candidat")
-//    private List<Aplicare> aplicari;
-
-
-    public Integer getIdCandidat() {
-        return idCandidat;
-    }
-
-    public void setIdCandidat(Integer idCandidat) {
-        this.idCandidat = idCandidat;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public Candidat() {
+        this.setRol("CANDIDAT"); // setat automat la creare
     }
 
 //    public CV getCv() {

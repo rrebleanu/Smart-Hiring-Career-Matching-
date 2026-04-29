@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:replace="~{fragments/head :: head}"></div>
+<body>
+<header><h1>Smart Hiring Career Matching</h1></header>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<div class="auth-container">
+    <div class="auth-card">
+
+        <div class="auth-tabs">
+            <a th:href="@{/login}" class="auth-tab">Intră în cont</a>
+            <a th:href="@{/register}" class="auth-tab active">Creează un cont</a>
+        </div>
+
+        <h2>Ce tip de cont vrei să creezi?</h2>
+
+        <div class="role-select">
+            <a th:href="@{/register/candidat}" class="btn-submit" style="text-decoration:none">
+                Candidat
+            </a>
+            <a th:href="@{/register/angajator}" class="btn-submit" style="text-decoration:none">
+                Angajator
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

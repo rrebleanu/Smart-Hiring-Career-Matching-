@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<div th:replace="~{fragments/head :: head}"></div>
+
+<body>
+<header>
+    <h1>Lista Companii</h1>
+</header>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<section class="companii-val">
+    <h2>Companii-le care fac parte din programul nostru</h2>
+    <ul>
+        <li>
+            <p>Company: XYZ Design</p>
+            <p>Location: India</p>
+            <p>Description: Good Web Developer</p>
+        </li>
+        <li>
+            <p>Company: XYZ Design</p>
+            <p>Location: India </p>
+            <p>Description:Good Graphic Designer</p>
+        </li>
+    </ul>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

@@ -1,30 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Intră în cont - Job Portal</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/styleslogin.css}">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:replace="~{fragments/head :: head}"></div>
 <body>
 <header><h1>Smart Hiring Career Matching</h1></header>
-<nav>
-    <ul>
-        <li><a th:href="@{/}">Home</a></li>
-        <li th:if="${session.userLogat == null}"><a th:href="@{/login}">Login</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/logout}">Logout</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/jobs}">Jobs</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/companii}">Companii</a></li>
-        <li><a th:href="@{/despre}">Despre Noi</a></li>
-        <li><a th:href="@{/contact}">Contact</a></li>
-    </ul>
-</nav>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
 <div class="auth-container">
     <div class="auth-card">
-        <button class="social-btn">🔵 Continuă cu Facebook</button>
-        <button class="social-btn">🍏 Continuă cu Apple</button>
-        <button class="social-btn">🔴 Continuă cu Google</button>
-
+        <button class="social-btn">Continuă cu Facebook</button>
         <div class="auth-separator">SAU</div>
 
         <div class="auth-tabs">
@@ -32,9 +18,22 @@
             <a th:href="@{/register}" class="auth-tab">Creează un cont</a>
         </div>
 
-        <p th:if="${error}" class="error-msg" th:text="${error}"></p>
-        <p th:if="${param.success}" class="success-msg">Cont creat! Te poți loga.</p>
+        <!-- Mesaj eroare login -->
+        <p th:if="${param.error}" class="error-msg">
+            Email sau parolă incorectă!
+        </p>
 
+        <!-- Mesaj succes după register -->
+        <p th:if="${param.success}" class="success-msg">
+            Cont creat cu succes! Intră în cont.
+        </p>
+
+        <!-- Mesaj după logout -->
+        <p th:if="${param.logout}" class="success-msg">
+            Ai ieșit din cont cu succes!
+        </p>
+
+        <!-- Action-ul trebuie să fie /login - gestionat de Spring Security -->
         <form th:action="@{/login}" method="post">
             <div class="form-group">
                 <label>Adresa ta de e-mail</label>
@@ -46,8 +45,12 @@
             </div>
             <button type="submit" class="btn-submit">Intră în cont</button>
         </form>
-        <p class="terms-text">Intrând în cont, accepți Termenii și Condițiile noastre.</p>
+
+        <p>Nu ai cont? <a th:href="@{/register}">Creează un cont</a></p>
     </div>
 </div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

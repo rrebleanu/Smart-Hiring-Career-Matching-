@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
 <div th:replace="~{fragments/head :: head}"></div>
@@ -7,10 +8,17 @@
 
 <body>
 
-<div th:replace="~{fragments/header :: header}"></div>
+<header>
+    <h1>Cautare Job</h1>
+</header>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
 
 <h1>Lista Anunturi</h1>
-<a href="/anunturi/adauga">Adauga Anunt</a>
+
+<!-- Butonul de adaugare doar pentru angajatori -->
+<a sec:authorize="hasRole('ANGAJATOR')" href="/anunturi/adauga" class="btn-submit" style="text-decoration:none; margin:2px">Adauga Anunt</a>
 
 <table>
     <tr>
@@ -28,6 +36,8 @@
         <td th:text="${anunt.salariuMax}"></td>
         <td th:text="${anunt.timpDeLucru}"></td>
         <td th:text="${anunt.timpExperientaNecesar}"></td>
+        <td><a sec:authorize="hasRole('CANDIDAT')" href="" class="btn-submit" style="text-decoration:none; margin:2px">Aplica</a></td>
+
     </tr>
 </table>
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<div th:replace="~{fragments/head :: head}"></div>
+
+<body>
+<header><h1>Smart Hiring Career Matching</h1></header>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-tabs">
+<!--      <a th:href="@{/login}" class="auth-tab">Intră în cont</a>-->
+      <a th:href="@{/register}" class="auth-tab active">Creează un cont</a>
+    </div>
+
+    <h2>Cont Candidat</h2>
+    <p>Ai deja un cont? <a th:href="@{/login}">Intră în cont</a></p>
+    <p>Ești angajator? <a th:href="@{/register/angajator}">Creează cont angajator</a></p>
+
+    <p th:if="${error}" class="error-msg" th:text="${error}"></p>
+
+    <form th:action="@{/register/candidat}" method="post">
+      <div class="form-group">
+        <label>Nume complet</label>
+        <input type="text" name="nume" required>
+      </div>
+      <div class="form-group">
+        <label>Adresa ta de e-mail</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Parola</label>
+        <input type="password" name="parola" required>
+      </div>
+      <div class="form-group">
+        <label>Telefon</label>
+        <input type="text" name="telefon">
+      </div>
+      <button type="submit" class="btn-submit">Creează cont</button>
+    </form>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

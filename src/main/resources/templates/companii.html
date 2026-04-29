@@ -1,32 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content=
-            "width=device-width, initial-scale=1.0">
-    <title>
-        Smart Hiring Career Matching
-    </title>
-
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-</head>
+<div th:replace="~{fragments/head :: head}"></div>
 
 <body>
 <header>
-    <h1>Cautare Job</h1>
+    <h1>Lista Companii</h1>
 </header>
-<nav>
-    <ul>
-        <li><a th:href="@{/}">Home</a></li>
-        <li th:if="${session.userLogat == null}"><a th:href="@{/login}">Login</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/logout}">Logout</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/jobs}">Jobs</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/companii}">Companii</a></li>
-        <li><a th:href="@{/despre}">Despre Noi</a></li>
-        <li><a th:href="@{/contact}">Contact</a></li>
-    </ul>
-</nav>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
 
 <section class="companii-val">
     <h2>Companii-le care fac parte din programul nostru</h2>
@@ -44,9 +26,8 @@
     </ul>
 </section>
 
-<footer>
-    <p>© 2026 Job Search Portal</p>
-</footer>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 
 </html>

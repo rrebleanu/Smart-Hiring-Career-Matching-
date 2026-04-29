@@ -6,15 +6,18 @@ import java.time.LocalDate;
 
 @Entity // This tells Hibernate to make a table
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private @Nullable Integer idUser;
+    private Integer idUser;
 
     private String numeUser;
 
     private LocalDate dataInfiintare;
+
+    private String rol;
 
     private String parola;
 
@@ -30,6 +33,14 @@ public class User {
 
     public String getNumeUser() {
         return numeUser;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public void setNumeUser(String numeUser) {

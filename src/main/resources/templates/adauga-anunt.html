@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Adauga Anunt</title></head>
+
+
+<div th:replace="~{fragments/head :: head}"></div>
+
+
 <body>
 
-<div th:replace="~{fragments/header :: header}"></div>
-
+<header>
 <h1>Adauga Anunt</h1>
+</header>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
 
 <form th:action="@{/anunturi/adauga}" th:object="${anunt}" method="post">
 
@@ -30,7 +36,7 @@
     <label>Domeniu Job:</label>
     <input type="text" th:field="*{domeniuJob}" /><br/>
 
-    <button type="submit">Salveaza</button>
+    <button type="submit" class="btn-submit">Salveaza</button>
 </form>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

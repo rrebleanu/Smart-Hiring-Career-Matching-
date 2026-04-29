@@ -1,37 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content=
-            "width=device-width, initial-scale=1.0">
-    <title>
-        Smart Hiring Career Matching
-    </title>
 
-    <link rel="stylesheet" th:href="@{/css/desprecon.css}" />
-</head>
+<div th:replace="~{fragments/head :: head}"></div>
+
 
 <body>
 <header>
     <h1>Bine ati venit!</h1>
 </header>
-<nav>
-    <ul>
-        <li><a th:href="@{/}">Home</a></li>
-        <li th:if="${session.userLogat == null}"><a th:href="@{/login}">Login</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/logout}">Logout</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/jobs}">Jobs</a></li>
-        <li th:if="${session.userLogat != null}"><a th:href="@{/companii}">Companii</a></li>
-        <li><a th:href="@{/despre}">Despre Noi</a></li>
-        <li><a th:href="@{/contact}">Contact</a></li>
-    </ul>
-</nav>
-<h2> Aici puteti gasi jobul mult dorit</h2>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<h2>Aici puteti gasi jobul mult dorit</h2>
 <p>Doar dati click pe butoanele din meniu si inregistrati-va/logati-va pentru a incepe cautarea.</p>
-<footer>
-    <p>© 2026 Job Search Portal</p>
-</footer>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 
 </html>

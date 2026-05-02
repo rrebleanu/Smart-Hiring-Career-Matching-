@@ -27,7 +27,7 @@ public class AnuntController {
     @GetMapping("/adauga")
     public String formAdauga(Model model) {
         model.addAttribute("anunt", new Anunt());
-        return "adauga-anunt";
+        return "angajat/adauga-anunt";
     }
 
     @PostMapping("/adauga")

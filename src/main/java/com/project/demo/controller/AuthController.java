@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -34,7 +35,7 @@ public class AuthController{
 
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login";
+        return "log-reg/login";
     }
 
     // POST-ul de login e gestionat automat de Spring Security
@@ -44,17 +45,17 @@ public class AuthController{
 
     @GetMapping("/register")
     public String showRegisterPage() {
-        return "register"; // pagină unde userul alege tipul contului
+        return "log-reg/register"; // pagină unde userul alege tipul contului
     }
 
     @GetMapping("/register/candidat")
     public String showRegisterCandidatPage() {
-        return "register-candidat";
+        return "log-reg/register-candidat";
     }
 
     @GetMapping("/register/angajator")
     public String showRegisterAngajatorPage() {
-        return "register-angajator";
+        return "log-reg/register-angajator";
     }
 
     // ==================== REGISTER CANDIDAT ====================
@@ -67,7 +68,7 @@ public class AuthController{
 
         if (userRepository.findByEmail(email) != null) {
             model.addAttribute("error", "Acest email este deja utilizat!");
-            return "register-candidat";
+            return "log-reg/register-candidat";
         }
 
         Candidat candidat = new Candidat(); // ROLE_CANDIDAT setat în constructor
@@ -91,7 +92,7 @@ public class AuthController{
 
         if (userRepository.findByEmail(email) != null) {
             model.addAttribute("error", "Acest email este deja utilizat!");
-            return "register-angajator";
+            return "log-reg/register-angajator";
         }
 
         Angajator angajator = new Angajator(); // ROLE_ANGAJATOR setat în constructor

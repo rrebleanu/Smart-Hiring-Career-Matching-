@@ -18,53 +18,7 @@ header {
     padding: 1rem 0;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    background-color: #746f6f;
-    padding: 0.5rem 0;
-}
-
-nav li {
-    margin-right: 20px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: #ae00ff;
-}
-
-.search {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.search h2 {
-    font-size: 24px;
-    margin-bottom: 1rem;
-}
-
-.search form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.search input[type="text"] {
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.search button {
+.btn-submit{
     background-color: #8a1cb2;
     color: #fff;
     border: none;
@@ -74,22 +28,12 @@ nav a:hover {
     transition: background-color 0.3s;
 }
 
-.search button:hover {
+.btn-submit:hover {
     background-color: #d9ff00;
     color:#333333
 }
 
 .job-listings {
-    margin: 2rem 0;
-}
-
-.job-listings h2 {
-    font-size: 24px;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.job-listings ul {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
@@ -97,40 +41,16 @@ nav a:hover {
     list-style: none;
 }
 
-.job-listings li {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.job-listings h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.job-listings p {
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.job-listings a {
-    background-color: #333;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-top: auto;
+.job-listings tr{
+    font-size: 16px;
+    margin-bottom: 1rem;
     text-align: center;
-    transition: background-color 0.3s;
 }
 
-.job-listings a:hover {
-    background-color: #8a1cb2;
+.job-listings>tr{
+    font-size: 24px;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 footer {

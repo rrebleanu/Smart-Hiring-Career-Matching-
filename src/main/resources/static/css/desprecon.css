@@ -46,8 +46,30 @@ nav a {
     transition: color 0.3s;
 }
 
+nav {
+    font-size: 16px;
+}
 nav a:hover {
     color: #ae00ff;
+}
+
+nav ul li form button{
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s;
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    display: inline;
+    font-size: 16px;
+}
+
+nav ul li form button:hover {
+    color: #ae00ff;
+    font-size: 16px;
 }
 
 footer {

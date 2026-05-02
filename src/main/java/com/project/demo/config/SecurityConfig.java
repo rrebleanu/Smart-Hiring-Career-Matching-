@@ -35,8 +35,9 @@ public class SecurityConfig {
                                 "/anunturi",
                                 "/despre",
                                 "/contact",
+                                "/register",
                                 "/login",
-                                "/register","/register/candidat", "/register/angajator",
+                                "/register/candidat", "/register/angajator",
                                 "/css/**", "/js/**", "/images/**"
                                   // Adaugat /** pentru a prinde toate sub-path-urile
                         ).permitAll()

@@ -13,7 +13,7 @@
 
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<form th:action="@{/anunturi/adauga}" th:object="${anunt}" method="post">
+<form th:action="@{/angajator/anunturi/adauga}" th:object="${anunt}" method="post">
 
     <label>Titlu:</label>
     <input type="text" th:field="*{titlu}" /><br/>

@@ -1,5 +1,6 @@
 package com.project.demo.service;
 
+import com.project.demo.model.Angajator;
 import com.project.demo.model.Anunt;
 import com.project.demo.repository.AnuntRepository;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,5 @@ public class AnunturiService {
     public Iterable<Anunt> getAll() {
         return anuntRepository.findAll();
     }
+    public List<Anunt>AngajatorAnunturi(Angajator angajator){return anuntRepository.findByAngajator(angajator);}
 }

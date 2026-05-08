@@ -23,18 +23,18 @@ public class AnuntController {
     {
         this.anuntService = anuntService;
     }
-
-    @GetMapping("/adauga")
-    public String formAdauga(Model model) {
-        model.addAttribute("anunt", new Anunt());
-        return "angajat/adauga-anunt";
-    }
-
-    @PostMapping("/adauga")
-    public String salveaza(@ModelAttribute Anunt anunt) {
-        anuntService.save(anunt);
-        return "redirect:/anunturi";
-    }
+//
+//    @GetMapping("/adauga")
+//    public String formAdauga(Model model) {
+//        model.addAttribute("anunt", new Anunt());
+//        return "angajator/adauga-anunt";
+//    }
+//
+//    @PostMapping("/adauga")
+//    public String salveaza(@ModelAttribute Anunt anunt) {
+//        anuntService.save(anunt);
+//        return "redirect:/anunturi";
+//    }
 
 
     @GetMapping

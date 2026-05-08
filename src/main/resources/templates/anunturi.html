@@ -9,39 +9,64 @@
 <body>
 
 <header>
-    <h1>Cautare Job</h1>
+    <h1>Lista Anunturi</h1>
 </header>
 
 <div th:replace="~{fragments/nav :: nav}"></div>
 
 
-<h1>Lista Anunturi</h1>
 
+<main>
 <!-- Butonul de adaugare doar pentru angajatori -->
-<a sec:authorize="hasRole('ANGAJATOR')" href="/anunturi/adauga" class="btn-submit" style="text-decoration:none; margin:2px">Adauga Anunt</a>
+<a sec:authorize="hasRole('ANGAJATOR')" href="angajator/anunturi/adauga" class="btn-submit" style="text-decoration:none; margin:2px">Adauga Anunt</a>
+<!-- job-listing.html (fragment din pagina ta Thymeleaf) -->
 
-<table>
-    <tr>
-        <th>Titlu</th>
-        <th>Domeniu</th>
-        <th>Salariu Min</th>
-        <th>Salariu Max</th>
-        <th>Timp Lucru</th>
-        <th>Experienta</th>
-    </tr>
-    <tr th:each="anunt : ${anunturi}">
-        <td th:text="${anunt.titlu}"></td>
-        <td th:text="${anunt.domeniuJob}"></td>
-        <td th:text="${anunt.salariuMin}"></td>
-        <td th:text="${anunt.salariuMax}"></td>
-        <td th:text="${anunt.timpDeLucru}"></td>
-        <td th:text="${anunt.timpExperientaNecesar}"></td>
-        <td><a sec:authorize="hasRole('CANDIDAT')" href="" class="btn-submit" style="text-decoration:none; margin:2px">Aplica</a></td>
 
-    </tr>
-</table>
+<div class="jobs-grid">
+    <div class="job-card" th:each="anunt : ${anunturi}">
 
+        <div class="job-card__header">
+            <h3 class="job-card__title" th:text="${anunt.titlu}">Titlu Job</h3>
+            <span class="job-card__domain" th:text="${anunt.domeniuJob}">Domeniu</span>
+        </div>
+
+        <p class="job-card__description" th:text="${anunt.descriereJob}">Descriere...</p>
+
+        <div class="job-card__details">
+            <div class="job-card__detail">
+                <i class="ti ti-coin" aria-hidden="true"></i>
+                <span>Salariu:</span>
+                <strong>
+                    <span th:text="${anunt.salariuMin}"></span> -
+                    <span th:text="${anunt.salariuMax}"></span> RON
+                </strong>
+            </div>
+            <div class="job-card__detail">
+                <i class="ti ti-clock" aria-hidden="true"></i>
+                <span>Program:</span>
+                <strong th:text="${anunt.timpDeLucru}"></strong>
+            </div>
+            <div class="job-card__detail">
+                <i class="ti ti-briefcase" aria-hidden="true"></i>
+                <span>Experiență:</span>
+                <strong th:text="${anunt.timpExperientaNecesar}"></strong>
+            </div>
+        </div>
+
+        <div class="job-card__footer">
+            <a sec:authorize="hasRole('CANDIDAT')"
+               href=""
+               class="btn-submit">
+                <i class="ti ti-send" aria-hidden="true"></i>
+                Aplică acum
+            </a>
+        </div>
+
+    </div>
+</div>
+</main>
 <div th:replace="~{fragments/footer :: footer}"></div>
+
 
 </body>
 </html>

@@ -5,10 +5,16 @@
 }
 
 body {
+
     font-family: Arial, sans-serif;
     background-color: #b29ac0;
     line-height: 1.6;
     color: #333333;
+}
+
+
+main{
+   margin:30px;
 }
 
 header {
@@ -46,8 +52,30 @@ nav a {
     transition: color 0.3s;
 }
 
+nav {
+    font-size: 16px;
+}
 nav a:hover {
     color: #ae00ff;
+}
+
+nav ul li form button{
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s;
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    display: inline;
+    font-size: 16px;
+}
+
+nav ul li form button:hover {
+    color: #ae00ff;
+    font-size: 16px;
 }
 
 footer {
@@ -55,4 +83,24 @@ footer {
     background-color: #333;
     color: #fff;
     padding: 1rem 0;
+}
+
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin:2px;
+    background: #8a1cb2;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-submit:hover {
 }

@@ -18,8 +18,7 @@ public class CV {
     @JoinColumn(name = "id_candidat")
     private Candidat candidate;
 
-//    @OneToOne(mappedBy = "cv")
-//    private Candidat candidate;
+    @OneToOne(mappedBy = "cv")
 
     public Integer getIdCv() {
         return idCv;

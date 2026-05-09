@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-
-<div th:replace="~{fragments/head :: head}"></div>
-
-
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
 <body>
-<header>
-    <h1>Bine ati venit!</h1>
-</header>
-
 <div th:replace="~{fragments/nav :: nav}"></div>
 
 <main>
+    <h1>Profilul Meu</h1>
+    <form th:action="@{/dashboard/update}" method="post" enctype="multipart/form-data">
+        <div>
+            <label>Nume:</label>
+            <input type="text" name="numeUser" th:value="${user.numeUser}" />
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" th:value="${user.email}" readonly />
+        </div>
 
+        <div th:if="${user instanceof T(com.project.demo.model.Candidat)}">
+            <label>Încarcă CV (PDF):</label>
+            <input type="file" name="cvFile" accept="application/pdf" />
+            <p th:if="${user.cvPath}">CV actual: <a th:href="${user.cvPath}" target="_blank">Vezi CV</a></p>
+        </div>
+
+        <button type="submit" class="btn-submit">Salvează Modificările</button>
+    </form>
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 </body>
-
 </html>

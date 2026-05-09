@@ -11,7 +11,9 @@
         <button type="submit">Logout</button>
       </form>
     </li>
-    <!--        <li sec:authorize="isAuthenticated()"><a th:href="@{/jobs}">Jobs</a></li>-->
+    <li sec:authorize="isAuthenticated()">
+      <a th:href="@{/dashboard}">Profil</a>
+    </li>
     <li><a th:href="@{/companii}">Companii</a></li>
     <li><a th:href="@{/anunturi}">Anunturi</a></li>
     <li><a th:href="@{/despre}">Despre Noi</a></li>

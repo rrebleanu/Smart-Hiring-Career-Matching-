@@ -20,17 +20,17 @@
     <div th:if="${user instanceof T(com.project.demo.model.Candidat)}">
       <h3>Document CV (Stocat în DB)</h3>
 
-      <div th:if="${user.cv == null}">
-        <p>Nu ai încărcat un PDF.</p>
-      </div>
+<!--      <div th:if="${user.cv == null}">-->
+<!--        <p>Nu ai încărcat un PDF.</p>-->
+<!--      </div>-->
 
-      <div th:if="${user.cv != null}">
-        <p>CV actual:
-          <a th:href="@{/cv/download/{id}(id=${user.cv.idCv})}" target="_blank">
-            Vezi PDF (din baza de date)
-          </a>
-        </p>
-      </div>
+<!--      <div th:if="${user.cv != null}">-->
+<!--        <p>CV actual:-->
+<!--          <a th:href="@{/cv/download/{id}(id=${user.cv.idCv})}" target="_blank">-->
+<!--            Vezi PDF (din baza de date)-->
+<!--          </a>-->
+<!--        </p>-->
+<!--      </div>-->
 
       <label>Încarcă/Înlocuiește PDF:</label>
       <input type="file" name="cvFile" accept="application/pdf" />

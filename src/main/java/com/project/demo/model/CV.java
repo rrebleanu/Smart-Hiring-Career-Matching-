@@ -18,7 +18,7 @@ public class CV {
 
     @ManyToOne
     @JoinColumn(name = "id_candidat")
-    private Candidat candidate;
+    private Candidat candidat;
 
     @OneToOne(mappedBy = "cv")
 
@@ -42,11 +42,11 @@ public class CV {
     public void setFileType(String fileType) { this.fileType = fileType; }
 
     public Candidat getCandidate() {
-        return candidate;
+        return candidat;
     }
 
     public void setCandidate(Candidat candidate) {
-        this.candidate = candidate;
+        this.candidat = candidate;
     }
 
     public byte[] getData() { return data; }

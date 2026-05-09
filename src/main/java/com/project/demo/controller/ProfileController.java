@@ -3,6 +3,7 @@ package com.project.demo.controller;
 import com.project.demo.model.Angajator;
 import com.project.demo.model.CV;
 import com.project.demo.model.Candidat;
+import com.project.demo.repository.CVRepository;
 import com.project.demo.repository.CandidatRepository;
 import com.project.demo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -22,10 +24,12 @@ public class ProfileController {
 
     private final UserService userService;
     private final CandidatRepository candidatRepository;
+    private final CVRepository cvRepository;
 
-    public ProfileController(UserService userService, CandidatRepository candidatRepository) {
+    public ProfileController(UserService userService, CandidatRepository candidatRepository,CVRepository cvRepository) {
         this.userService = userService;
         this.candidatRepository = candidatRepository;
+        this.cvRepository = cvRepository;
     }
 
     @GetMapping
@@ -53,19 +57,17 @@ public class ProfileController {
 
             if (!cvFile.isEmpty()) {
                 try {
-                    // Dacă nu are deja un obiect CV, îl creăm
-                    CV cv = current.getCv();
-                    if (cv == null) {
-                        cv = new CV();
+                    List<CV> listacv=cvRepository.findByCandidat(current);
+                    if (listacv == null) {
+                        CV cv = new CV();
+
+                        // Salvăm metadatele și conținutul binar
+                        cv.setFileName(cvFile.getOriginalFilename());
+                        cv.setFileType(cvFile.getContentType());
+                        cv.setData(cvFile.getBytes()); // Aici se întâmplă "magia"
+                        cv.setCandidate(current);
+                        cvRepository.save(cv);
                     }
-
-                    // Salvăm metadatele și conținutul binar
-                    cv.setFileName(cvFile.getOriginalFilename());
-                    cv.setFileType(cvFile.getContentType());
-                    cv.setData(cvFile.getBytes()); // Aici se întâmplă "magia"
-                    cv.setCandidate(current);
-
-                    current.setCv(cv);
                 } catch (IOException e) {
                     throw new RuntimeException("Eroare la citirea fișierului: " + e.getMessage());
                 }

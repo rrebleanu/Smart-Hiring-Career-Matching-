@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class CVController {
 
     private final CVRepository cvRepository;
-    private final CandidatRepository candidatRepository;
     private final UserService userService;
 
     public CVController(CVRepository cvRepository, CandidatRepository candidatRepository, UserService userService) {
         this.cvRepository = cvRepository;
-        this.candidatRepository = candidatRepository;
         this.userService = userService;
     }
 
@@ -33,10 +31,9 @@ public class CVController {
         if (!(user instanceof Candidat currentCandidat)) {
             return "redirect:/login"; // Only candidates can make CVs
         }
-
         // If the candidate already has a CV, redirect them to the edit page or dashboard
-        if (currentCandidat.getCv() != null) {
-            model.addAttribute("cv", currentCandidat.getCv());
+        if (cvRepository.findByCandidat(currentCandidat) != null) {
+            model.addAttribute("cv", cvRepository.findByCandidat(currentCandidat));
         } else {
             model.addAttribute("cv", new CV());
         }
@@ -54,10 +51,6 @@ public class CVController {
 
         // Save the CV to the database
         CV savedCv = cvRepository.save(cvForm);
-
-        // Link the saved CV to the current candidate and save the candidate
-        currentCandidat.setCv(savedCv);
-        candidatRepository.save(currentCandidat);
 
         return "redirect:/dashboard?cvSuccess";
     }

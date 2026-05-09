@@ -5,6 +5,9 @@ import com.project.demo.model.Candidat;
 import com.project.demo.repository.CVRepository;
 import com.project.demo.repository.CandidatRepository;
 import com.project.demo.service.UserService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +60,15 @@ public class CVController {
         candidatRepository.save(currentCandidat);
 
         return "redirect:/dashboard?cvSuccess";
+    }
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> getCV(@PathVariable Integer id) {
+        CV cv = cvRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("CV-ul nu a fost găsit"));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(cv.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + cv.getFileName() + "\"")
+                .body(cv.getData());
     }
 }

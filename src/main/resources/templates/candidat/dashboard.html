@@ -7,6 +7,7 @@
 <main>
   <h1>Profilul Meu</h1>
   <form th:action="@{/dashboard/update}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <div>
       <label>Nume:</label>
       <input type="text" name="numeUser" th:value="${user.numeUser}" />
@@ -17,35 +18,23 @@
     </div>
 
     <div th:if="${user instanceof T(com.project.demo.model.Candidat)}">
-      <h3>Document CV (PDF)</h3>
-      <div th:if="${user.cvPath == null}">
-        <p>Nu ai încărcat un PDF.</p>
-        <input type="file" name="cvFile" accept="application/pdf" />
-      </div>
-      <div th:if="${user.cvPath != null}">
-        <p>CV actual: <a th:href="${user.cvPath}" target="_blank">Vezi PDF</a></p>
-        <label>Înlocuiește PDF:</label>
-        <input type="file" name="cvFile" accept="application/pdf" />
-      </div>
+      <h3>Document CV (Stocat în DB)</h3>
 
-      <hr/>
-
-      <h3>Profilul Tău Profesional</h3>
       <div th:if="${user.cv == null}">
-        <p>Nu ai completat încă detaliile din CV-ul digital.</p>
-        <a th:href="@{/cv/nou}" class="btn-submit" style="display: inline-block; text-decoration: none;">Creează CV Digital</a>
+        <p>Nu ai încărcat un PDF.</p>
       </div>
 
       <div th:if="${user.cv != null}">
-        <p><strong>Telefon:</strong> <span th:text="${user.cv.telefon}"></span></p>
-        <p><strong>Domeniu:</strong> <span th:text="${user.cv.domeniu}"></span></p>
-        <p><strong>Experiență:</strong> <span th:text="${user.cv.experienta}"></span></p>
-        <p><strong>Despre mine:</strong> <span th:text="${user.cv.descriereCandidat}"></span></p>
-        <br/>
-        <a th:href="@{/cv/nou}" class="btn-submit" style="display: inline-block; text-decoration: none;">Editează CV-ul</a>
+        <p>CV actual:
+          <a th:href="@{/cv/download/{id}(id=${user.cv.idCv})}" target="_blank">
+            Vezi PDF (din baza de date)
+          </a>
+        </p>
       </div>
-    </div>
 
+      <label>Încarcă/Înlocuiește PDF:</label>
+      <input type="file" name="cvFile" accept="application/pdf" />
+    </div>
     <button type="submit" class="btn-submit">Salvează Modificările</button>
   </form>
 </main>
@@ -53,61 +42,3 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head th:replace="~{fragments/head :: head}"></head>-->
-<!--<body>-->
-<!--<div th:replace="~{fragments/nav :: nav}"></div>-->
-
-<!--<main style="max-width: 600px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">-->
-<!--  <h2>Profilul Meu</h2>-->
-<!--  <p style="color: #666;">Actualizează-ți numele sau încarcă noul tău CV în format PDF.</p>-->
-<!--  <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;"/>-->
-
-<!--  <div th:if="${param.success}" style="color: green; background-color: #e2f0d9; padding: 10px; margin-bottom: 15px; border-radius: 4px;">-->
-<!--    Modificările au fost salvate cu succes!-->
-<!--  </div>-->
-
-<!--  <form th:action="@{/dashboard/update}" method="post" enctype="multipart/form-data">-->
-<!--    <div style="margin-bottom: 15px;">-->
-<!--      <label style="display:block; font-weight:bold; margin-bottom: 5px;">Nume:</label>-->
-<!--      <input type="text" name="numeUser" th:value="${user.numeUser}" required style="width:100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />-->
-<!--    </div>-->
-
-<!--    <div style="margin-bottom: 15px;">-->
-<!--      <label style="display:block; font-weight:bold; margin-bottom: 5px;">Email:</label>-->
-<!--      <input type="email" th:value="${user.email}" readonly style="width:100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #f5f5f5; cursor: not-allowed;" />-->
-<!--    </div>-->
-
-<!--    <div th:if="${user instanceof T(com.project.demo.model.Candidat)}" style="margin-bottom: 20px; padding: 15px; border: 1px dashed #8a1cb2; border-radius: 6px; background-color: #fdfbfe;">-->
-<!--      <h3 style="margin-top:0; color: #8a1cb2; font-size: 16px;">Documentul Tău CV</h3>-->
-
-<!--      <div th:if="${user.cvPath != null}" style="margin-bottom: 15px;">-->
-<!--        <p style="color: #2e7d32; font-weight: bold; margin: 5px 0;">✓ Ai deja un CV încărcat în sistem.</p>-->
-<!--        <a th:href="${user.cvPath}" target="_blank" style="color: #0066cc; text-decoration: underline; font-weight: bold;">-->
-<!--          Deschide CV-ul actual (PDF)-->
-<!--        </a>-->
-<!--      </div>-->
-
-<!--      <div th:if="${user.cvPath == null}" style="margin-bottom: 15px;">-->
-<!--        <p style="color: #c62828; margin: 5px 0;">⚠ Nu ai încărcat niciun fișier PDF încă.</p>-->
-<!--      </div>-->
-
-<!--      <label style="display:block; font-weight:bold; margin-bottom: 5px; font-size: 14px;">-->
-<!--        Alege un fișier nou pentru a-l înlocui/încărca:-->
-<!--      </label>-->
-<!--      <input type="file" name="cvFile" accept="application/pdf" style="display: block; margin-top: 5px;" />-->
-<!--    </div>-->
-
-<!--    <div style="text-align: right;">-->
-<!--      <button type="submit" class="btn-submit" style="background-color: #8a1cb2; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">-->
-<!--        Salvează Modificările-->
-<!--      </button>-->
-<!--    </div>-->
-<!--  </form>-->
-<!--</main>-->
-
-<!--<div th:replace="~{fragments/footer :: footer}\"></div>-->
-<!--</body>-->
-<!--</html>-->

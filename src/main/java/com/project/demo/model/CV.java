@@ -9,10 +9,12 @@ public class CV {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCv;
 
-    private String descriereCandidat;
-    private String telefon;
-    private String experienta;
-    private String domeniu;
+    private String fileName;
+    private String fileType;
+
+    @Lob
+    @Column(name = "data", columnDefinition = "LONGBLOB")
+    private byte[] data;
 
     @ManyToOne
     @JoinColumn(name = "id_candidat")
@@ -28,37 +30,16 @@ public class CV {
         this.idCv = idCv;
     }
 
-    public String getDescriereCandidat() {
-        return descriereCandidat;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setDescriereCandidat(String descriereCandidat) {
-        this.descriereCandidat = descriereCandidat;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getTelefon() {
-        return telefon;
-    }
-
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
-    }
-
-    public String getExperienta() {
-        return experienta;
-    }
-
-    public void setExperienta(String experienta) {
-        this.experienta = experienta;
-    }
-
-    public String getDomeniu() {
-        return domeniu;
-    }
-
-    public void setDomeniu(String domeniu) {
-        this.domeniu = domeniu;
-    }
+    public String getFileType() { return fileType; }
+    public void setFileType(String fileType) { this.fileType = fileType; }
 
     public Candidat getCandidate() {
         return candidate;
@@ -67,5 +48,8 @@ public class CV {
     public void setCandidate(Candidat candidate) {
         this.candidate = candidate;
     }
+
+    public byte[] getData() { return data; }
+    public void setData(byte[] data) { this.data = data; }
 
 }

@@ -43,8 +43,12 @@ public class SecurityConfig {
                         ).permitAll()
                         // Configurarea accesului bazat pe roluri
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/cv/download/**").authenticated()
                         .requestMatchers("/angajator/**").hasRole("ANGAJATOR")
                         .requestMatchers("/aplica/**").hasAnyRole("CANDIDAT", "ADMIN")
+                        .requestMatchers("/dashboard/**").hasRole("CANDIDAT")
+                        .requestMatchers("/uploads/**").authenticated()
+                        .requestMatchers("/new").authenticated()
                         // Toate celelalte cereri necesita autentificare
                         .anyRequest().authenticated()
                 )

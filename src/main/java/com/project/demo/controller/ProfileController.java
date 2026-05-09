@@ -1,6 +1,7 @@
 package com.project.demo.controller;
 
 import com.project.demo.model.Angajator;
+import com.project.demo.model.CV;
 import com.project.demo.model.Candidat;
 import com.project.demo.repository.CandidatRepository;
 import com.project.demo.service.UserService;
@@ -51,13 +52,26 @@ public class ProfileController {
             current.setNumeUser(updatedData.getNumeUser());
 
             if (!cvFile.isEmpty()) {
-                String filePath = saveFile(cvFile);
-                current.setCvPath(filePath);
+                try {
+                    // Dacă nu are deja un obiect CV, îl creăm
+                    CV cv = current.getCv();
+                    if (cv == null) {
+                        cv = new CV();
+                    }
+
+                    // Salvăm metadatele și conținutul binar
+                    cv.setFileName(cvFile.getOriginalFilename());
+                    cv.setFileType(cvFile.getContentType());
+                    cv.setData(cvFile.getBytes()); // Aici se întâmplă "magia"
+                    cv.setCandidate(current);
+
+                    current.setCv(cv);
+                } catch (IOException e) {
+                    throw new RuntimeException("Eroare la citirea fișierului: " + e.getMessage());
+                }
             }
             candidatRepository.save(current);
         }
-        // Add logic for Angajator here if they have fields to update
-
         return "redirect:/dashboard?success";
     }
 

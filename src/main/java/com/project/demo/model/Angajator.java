@@ -10,8 +10,6 @@ public class Angajator extends User{
         this.setRol("ANGAJATOR"); // setat automat la creare
     }
 
-    private String numeCompanie;
-
 
     @ManyToOne
     @JoinColumn(name = "id_companie")
@@ -27,11 +25,4 @@ public class Angajator extends User{
         this.companie = companie;
     }
 
-    public String getNumeCompanie() {
-        return numeCompanie;
-    }
-
-    public void setNumeCompanie(String numeCompanie) {
-        this.numeCompanie = numeCompanie;
-    }
 }

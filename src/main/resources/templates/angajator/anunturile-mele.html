@@ -59,12 +59,12 @@
                     <i class="ti ti-send" aria-hidden="true"></i>
                     Vezi aplicări
                 </a>
-                <a href=""
+                <a th:href="@{/angajator/anunturi/modifica/{id}(id=${anunt.id})}"
                    class="btn-submit">
                     <i class="ti ti-send" aria-hidden="true"></i>
                     Modifica
                 </a>
-                <a href=""
+                <a th:href="@{/angajator/anunturi/sterge/{id}(id=${anunt.id})}"
                    class="btn-submit" style="background:red;">
                     <i class="ti ti-send" aria-hidden="true"></i>
                     Șterge

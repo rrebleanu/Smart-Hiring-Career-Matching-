@@ -47,10 +47,21 @@ public class CVController {
         }
 
         try {
+
+            // dezactivezi toate CV-urile existente
+            cvRepository.findAll().forEach(cv -> {
+                cv.setActiv(false);
+                cvRepository.save(cv);
+            });
+
+
+
             CV cv = new CV();
             cv.setFileName(file.getOriginalFilename());
             cv.setFileType(file.getContentType());
             cv.setData(file.getBytes());
+            cv.setCandidat((Candidat) userService.getCurrentUser());
+            cv.setActiv(true);
             /*TO DO - DE FACUT STATUS ACTIV LA ACTUALUL CV SI DEZACTIVAT CEL ACTIV ANTERIOR (DACA E)*/
             cvRepository.save(cv);
             redirectAttributes.addFlashAttribute("success", "CV încărcat cu succes!");

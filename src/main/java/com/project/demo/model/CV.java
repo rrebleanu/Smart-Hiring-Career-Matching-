@@ -12,6 +12,15 @@ public class CV {
     private String fileName;
     private String fileType;
 
+    private boolean activ;
+
+    public boolean isActiv() {
+        return activ;
+    }
+
+    public void setActiv(boolean activ) {
+        this.activ = activ;
+    }
 
     @Column(columnDefinition = "bytea")
     private byte[] data;
@@ -20,11 +29,11 @@ public class CV {
     @JoinColumn(name = "id_candidat")
     private Candidat candidat;
 
-    public Integer getIdCv() {
+    public Integer getId() {
         return id;
     }
 
-    public void setIdCv(Integer idCv) {
+    public void setId(Integer idCv) {
         this.id = idCv;
     }
 
@@ -43,8 +52,8 @@ public class CV {
         return candidat;
     }
 
-    public void setCandidate(Candidat candidate) {
-        this.candidat = candidate;
+    public void setCandidat(Candidat candidat) {
+        this.candidat = candidat;
     }
 
     public byte[] getData() { return data; }

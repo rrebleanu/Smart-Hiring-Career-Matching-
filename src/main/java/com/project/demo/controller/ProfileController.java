@@ -34,17 +34,25 @@ public class ProfileController {
     }
 
     @GetMapping
-    public String showProfile(Model model) {
+    public String myProfile(Model model) {
         Object user = userService.getCurrentUser();
 
         if (user instanceof Candidat) {
             model.addAttribute("user", user);
-            return "candidat/dashboard"; // Point to a candidate-specific view
-        } else if (user instanceof Angajator) {
-            model.addAttribute("user", user);
-            return "angajator/dashboard"; // Point to an employer-specific view
+            model.addAttribute("cvActiv", cvRepository.findByCandidatAndActiv((Candidat)user,true).orElse(null));
+            return "profil"; // Point to a candidate-specific view
         }
-
-        return "redirect:/login";
+        return "profil";
+    }
+    @GetMapping(path="/{id}")
+    public String showProfile(@PathVariable Integer id, Model model) {
+        Candidat candidat = candidatRepository.findById(id).orElse(null);
+        if(candidat != null) {
+            CV cvActiv = cvRepository.findByCandidatAndActiv(candidat, true).orElse(null);
+            model.addAttribute("cvActiv", cvActiv);
+            model.addAttribute("candidat", candidat);
+            return "candidat/profil";
+        }
+        return "redirect:/";
     }
 }

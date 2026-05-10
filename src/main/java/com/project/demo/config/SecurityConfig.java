@@ -33,7 +33,6 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/anunturi",
-                                "/companii",
                                 "/despre",
                                 "/contact",
                                 "/register",
@@ -44,8 +43,12 @@ public class SecurityConfig {
                         ).permitAll()
                         // Configurarea accesului bazat pe roluri
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/cv/**").hasAnyRole("ADMIN", "CANDIDAT")
+                        .requestMatchers("/cv/view/**").authenticated()
+                        .requestMatchers("/candidat/**").hasAnyRole( "CANDIDAT")
                         .requestMatchers("/angajator/**").hasRole("ANGAJATOR")
-                        .requestMatchers("/candidat/**").hasRole("CANDIDAT")
+                        .requestMatchers("/aplica/**").hasAnyRole("CANDIDAT", "ADMIN")
+                        .requestMatchers("/profil/**").hasRole("CANDIDAT")
                         // Toate celelalte cereri necesita autentificare
                         .anyRequest().authenticated()
                 )

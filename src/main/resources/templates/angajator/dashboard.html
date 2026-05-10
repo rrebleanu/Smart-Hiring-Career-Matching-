@@ -1,28 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head :: head}"></head>
 <body>
 <div th:replace="~{fragments/nav :: nav}"></div>
 
 <main>
-    <h1>Profilul Meu</h1>
-    <form th:action="@{/dashboard/update}" method="post" enctype="multipart/form-data">
-        <div>
-            <label>Nume:</label>
-            <input type="text" name="numeUser" th:value="${user.numeUser}" />
-        </div>
-        <div>
-            <label>Email:</label>
-            <input type="email" th:value="${user.email}" readonly />
-        </div>
+    <h1>Profil</h1>
 
-        <div th:if="${user instanceof T(com.project.demo.model.Candidat)}">
+    <form action="/cv/upload" method="post" enctype="multipart/form-data" class="mt-3">
+        <div sec:authorize="hasRole('CANDIDAT')">
             <label>Încarcă CV (PDF):</label>
-            <input type="file" name="cvFile" accept="application/pdf" />
-            <p th:if="${user.cvPath}">CV actual: <a th:href="${user.cvPath}" target="_blank">Vezi CV</a></p>
+        <div class="mb-3">
+            <label for="file">Selectează fișier (PDF sau DOCX)</label>
+            <input type="file" id="file" name="file"
+                   class="form-control" accept=".pdf,.docx" required>
         </div>
+        <button type="submit" class="btn btn-primary">Încarcă</button>
 
-        <button type="submit" class="btn-submit">Salvează Modificările</button>
+        </div>
     </form>
 </main>
 

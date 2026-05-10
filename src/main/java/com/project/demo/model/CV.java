@@ -7,66 +7,56 @@ import jakarta.persistence.*;
 public class CV {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCv;
+    private Integer id;
 
-    private String descriereCandidat;
-    private String telefon;
-    private String experienta;
-    private String domeniu;
+    private String fileName;
+    private String fileType;
+
+    private boolean activ;
+
+    public boolean isActiv() {
+        return activ;
+    }
+
+    public void setActiv(boolean activ) {
+        this.activ = activ;
+    }
+
+    @Column(columnDefinition = "bytea")
+    private byte[] data;
 
     @ManyToOne
     @JoinColumn(name = "id_candidat")
-    private Candidat candidate;
+    private Candidat candidat;
 
-//    @OneToOne(mappedBy = "cv")
-//    private Candidat candidate;
-
-    public Integer getIdCv() {
-        return idCv;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdCv(Integer idCv) {
-        this.idCv = idCv;
+    public void setId(Integer idCv) {
+        this.id = idCv;
     }
 
-    public String getDescriereCandidat() {
-        return descriereCandidat;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setDescriereCandidat(String descriereCandidat) {
-        this.descriereCandidat = descriereCandidat;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getTelefon() {
-        return telefon;
-    }
-
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
-    }
-
-    public String getExperienta() {
-        return experienta;
-    }
-
-    public void setExperienta(String experienta) {
-        this.experienta = experienta;
-    }
-
-    public String getDomeniu() {
-        return domeniu;
-    }
-
-    public void setDomeniu(String domeniu) {
-        this.domeniu = domeniu;
-    }
+    public String getFileType() { return fileType; }
+    public void setFileType(String fileType) { this.fileType = fileType; }
 
     public Candidat getCandidate() {
-        return candidate;
+        return candidat;
     }
 
-    public void setCandidate(Candidat candidate) {
-        this.candidate = candidate;
+    public void setCandidat(Candidat candidat) {
+        this.candidat = candidat;
     }
+
+    public byte[] getData() { return data; }
+    public void setData(byte[] data) { this.data = data; }
 
 }

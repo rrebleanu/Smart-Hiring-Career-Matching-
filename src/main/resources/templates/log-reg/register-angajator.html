@@ -36,10 +36,47 @@
                 <label>Parola</label>
                 <input type="password" name="parola" required>
             </div>
+<!--            <div class="form-group">-->
+<!--                <label>Companie</label>-->
+<!--                <input type="text" name="companie" required>-->
+<!--            </div>-->
+
+            <!-- DROPDOWN COMPANII -->
             <div class="form-group">
                 <label>Companie</label>
-                <input type="text" name="companie" required>
+                <select name="companieId">
+                    <option value="">-- Selectează compania --</option>
+                    <option th:each="c : ${companii}"
+                            th:value="${c.id}"
+                            th:text="${c.numeCompanie}">
+                    </option>
+                </select>
             </div>
+
+            <!-- BUTON TOGGLE - reincarca pagina cu flag -->
+            <a th:href="@{/register/angajator(creareNoua=true)}"
+               th:unless="${creareNoua}">
+                + Compania mea nu există
+            </a>
+
+            <!-- FORMULAR COMPANIE NOUA - apare doar daca creareNoua=true -->
+            <div th:if="${creareNoua}" style="padding: 12px; border: 1px solid #ddd; border-radius: 4px;">
+                <p style="font-weight: bold;">Creează companie nouă</p>
+                <div class="form-group">
+                    <label>Nume companie</label>
+                    <input type="text" name="numeCompanieNoua" required>
+                </div>
+                <div class="form-group">
+                    <label>Domeniu</label>
+                    <input type="text" name="domeniu">
+                </div>
+                <div class="form-group">
+                    <label>Locație</label>
+                    <input type="text" name="locatie">
+                </div>
+                <a th:href="@{/register/angajator}">✕ Anulează</a>
+            </div>
+
             <button type="submit" class="btn-submit">Creează cont</button>
         </form>
     </div>

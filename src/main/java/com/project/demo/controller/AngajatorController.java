@@ -1,10 +1,9 @@
 package com.project.demo.controller;
 
-import com.project.demo.model.Angajator;
-import com.project.demo.model.Anunt;
-import com.project.demo.model.User;
+import com.project.demo.model.*;
 import com.project.demo.repository.AngajatorRepository;
 import com.project.demo.service.AnunturiService;
+import com.project.demo.service.AplicareService;
 import com.project.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -19,9 +18,11 @@ public class AngajatorController {
 
     private final AnunturiService anunturiService;
     private final UserService userService;
-    public AngajatorController(AngajatorRepository angajatorRepository, AnunturiService anunturiService, UserService userService) {
+    private final AplicareService aplicareService;
+    public AngajatorController(AngajatorRepository angajatorRepository, AnunturiService anunturiService, UserService userService, AplicareService aplicareService) {
         this.anunturiService = anunturiService;
         this.userService = userService;
+        this.aplicareService = aplicareService;
     }
 
 
@@ -36,6 +37,20 @@ public class AngajatorController {
               model.addAttribute("anunturi", anunturiService.AngajatorAnunturi(currentUser));
               return "angajator/anunturile-mele";
           }
+
+            @GetMapping("/anunturi/{id}")
+            public String getAplicari(@PathVariable Integer id, Model model){
+            Anunt anunt = anunturiService.getById(id);
+            Angajator currentUser = (Angajator) userService.getCurrentUser();
+            List<Anunt> anunturi = anunturiService.AngajatorAnunturi(currentUser);
+            if(anunturi.contains(anunt)) {
+                List<Candidat> aplicari = aplicareService.candidati(anunt);
+                model.addAttribute("aplicari", aplicari);
+                return "angajator/aplicari";
+            }
+            return "redirect:/angajator/anunturi";
+        }
+
         @GetMapping("/anunturi/adauga")
         public String formAdauga(Model model) {
             model.addAttribute("anunt", new Anunt());
@@ -49,4 +64,5 @@ public class AngajatorController {
             anunturiService.save(anunt);
             return "redirect:/angajator/anunturi";
         }
+
     }

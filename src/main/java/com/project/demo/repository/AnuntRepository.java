@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface AnuntRepository extends CrudRepository<Anunt, Integer> {
     List<Anunt>findByAngajator(Angajator angajator);
+
 }

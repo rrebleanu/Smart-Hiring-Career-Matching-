@@ -19,6 +19,9 @@ public class AnunturiService {
     public void save(Anunt newAnunt) {
         anuntRepository.save(newAnunt);
     }
+    public Anunt getById(Integer id){
+        return anuntRepository.findById(id).orElseThrow();
+    }
 
     public Iterable<Anunt> getAll() {
         return anuntRepository.findAll();

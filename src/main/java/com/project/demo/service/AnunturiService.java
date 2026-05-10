@@ -24,4 +24,15 @@ public class AnunturiService {
         return anuntRepository.findAll();
     }
     public List<Anunt>AngajatorAnunturi(Angajator angajator){return anuntRepository.findByAngajator(angajator);}
+
+//     Metodă care extrage un anunț specific după ID-ul său
+    public Anunt getAnuntById(Integer id) {
+        return anuntRepository.findById(id).orElse(null);
+    }
+
+    // Metodă care șterge definitiv un anunț din baza de date
+    public void deleteAnuntById(Integer id) {
+        anuntRepository.deleteById(id);
+    }
+
 }

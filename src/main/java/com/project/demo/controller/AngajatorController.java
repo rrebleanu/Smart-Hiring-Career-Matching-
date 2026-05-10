@@ -49,4 +49,38 @@ public class AngajatorController {
             anunturiService.save(anunt);
             return "redirect:/angajator/anunturi";
         }
+
+
+    // Rute pentru functionalitatea de stergere anunt
+
+    @GetMapping("/anunturi/sterge/{id}")
+    public String stergeAnunt(@PathVariable("id") Integer id) {
+        anunturiService.deleteAnuntById(id);
+        return "redirect:/angajator/anunturi";
+    }
+
+    // Rute pentru functionalitatea de modificare anunt
+
+    @GetMapping("/anunturi/modifica/{id}")
+    public String formModificaAnunt(@PathVariable("id") Integer id, Model model) {
+        Anunt anuntDeModificat = anunturiService.getAnuntById(id);
+
+        if (anuntDeModificat == null) {
+            return "redirect:/angajator/anunturi";
+        }
+
+        model.addAttribute("anunt", anuntDeModificat);
+        return "angajator/modifica-anunt";
+    }
+
+    @PostMapping("/anunturi/modifica/{id}")
+    public String salveazaModificarea(@PathVariable("id") Integer id, @ModelAttribute Anunt anuntModificat) {
+        Angajator currentUser = (Angajator) userService.getCurrentUser();
+
+        anuntModificat.setAngajator(currentUser);
+        anuntModificat.setIdAnunt(id);
+
+        anunturiService.save(anuntModificat);
+        return "redirect:/angajator/anunturi";
+    }
     }

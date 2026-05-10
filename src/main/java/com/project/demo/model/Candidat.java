@@ -7,24 +7,19 @@ import java.util.List;
 @Table(name = "candidati")
 public class Candidat extends User {
 
+    private String cvPath; // The physical PDF path we set up earlier
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_cv") // Links to the CV table
+    private CV cv;
+
     public Candidat() {
-        this.setRol("CANDIDAT"); // setat automat la creare
+        this.setRol("CANDIDAT");
     }
 
-//    public CV getCv() {
-//        return cv;
-//    }
+    public String getCvPath() { return cvPath; }
+    public void setCvPath(String cvPath) { this.cvPath = cvPath; }
 
-//    public void setCv(CV cv) {
-//        this.cv = cv;
-//    }
-
-//    // Getteri și setteri pentru noua listă
-//    public List<Aplicare> getAplicari() {
-//        return aplicari;
-//    }
-//
-//    public void setAplicari(List<Aplicare> aplicari) {
-//        this.aplicari = aplicari;
-//    }
+    public CV getCv() { return cv; }
+    public void setCv(CV cv) { this.cv = cv; }
 }

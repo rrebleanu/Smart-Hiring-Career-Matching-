@@ -55,7 +55,7 @@
 
         <div class="job-card__footer">
             <a sec:authorize="hasRole('CANDIDAT')"
-               href=""
+               th:href="@{/aplica/{id}(id=${anunt.idAnunt})}"
                class="btn-submit">
                 <i class="ti ti-send" aria-hidden="true"></i>
                 Aplică acum

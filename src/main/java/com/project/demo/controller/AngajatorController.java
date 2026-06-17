@@ -20,10 +20,10 @@ public class AngajatorController {
     private final AnunturiService anunturiService;
     private final UserService userService;
     private final AplicareService aplicareService;
-    private final OcrService ocrService;
+    private final DocumentOCRService ocrService;
     private final CVRepository cvRepository;
     private final AgentAngajatorService agentAngajatorService;
-    public AngajatorController(CVRepository cvRepository, AngajatorRepository angajatorRepository, AnunturiService anunturiService, UserService userService, AplicareService aplicareService,OcrService ocrService, AgentAngajatorService agentAngajatorService ) {
+    public AngajatorController(CVRepository cvRepository, AngajatorRepository angajatorRepository, AnunturiService anunturiService, UserService userService, AplicareService aplicareService,DocumentOCRService ocrService, AgentAngajatorService agentAngajatorService ) {
         this.anunturiService = anunturiService;
         this.userService = userService;
         this.aplicareService = aplicareService;

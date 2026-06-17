@@ -13,7 +13,7 @@ public class Anunt{
 
     private String titlu;
 
-    @Column(length = 1000) // Descrierile pot fi lungi
+    @Column(length = 10000) // Descrierile pot fi lungi
     private String descriereJob;
 
     private Double salariuMin;

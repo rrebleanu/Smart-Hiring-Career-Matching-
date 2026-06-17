@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/cv/download/**").authenticated()
                         .requestMatchers("/candidat/**").hasAnyRole( "CANDIDAT")
                         .requestMatchers("/angajator/**").hasRole("ANGAJATOR")
+                        .requestMatchers("/candidat/**").hasRole("CANDIDAT")
                         .requestMatchers("/aplica/**").hasAnyRole("CANDIDAT", "ADMIN")
                         .requestMatchers("/profil/**").authenticated()
                         // Toate celelalte cereri necesita autentificare

@@ -2,15 +2,16 @@ package com.project.demo.controller;
 
 import com.project.demo.model.*;
 import com.project.demo.repository.AngajatorRepository;
-import com.project.demo.service.AnunturiService;
-import com.project.demo.service.AplicareService;
-import com.project.demo.service.UserService;
+import com.project.demo.repository.CVRepository;
+import com.project.demo.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller // Controller for Employers
 @RequestMapping(path="/angajator")
@@ -19,10 +20,16 @@ public class AngajatorController {
     private final AnunturiService anunturiService;
     private final UserService userService;
     private final AplicareService aplicareService;
-    public AngajatorController(AngajatorRepository angajatorRepository, AnunturiService anunturiService, UserService userService, AplicareService aplicareService) {
+    private final OcrService ocrService;
+    private final CVRepository cvRepository;
+    private final AgentAngajatorService agentAngajatorService;
+    public AngajatorController(CVRepository cvRepository, AngajatorRepository angajatorRepository, AnunturiService anunturiService, UserService userService, AplicareService aplicareService,OcrService ocrService, AgentAngajatorService agentAngajatorService ) {
         this.anunturiService = anunturiService;
         this.userService = userService;
         this.aplicareService = aplicareService;
+        this.ocrService = ocrService;
+        this.agentAngajatorService = agentAngajatorService;
+        this.cvRepository = cvRepository;
     }
 
 
@@ -46,6 +53,7 @@ public class AngajatorController {
             if(anunturi.contains(anunt)) {
                 List<Candidat> aplicari = aplicareService.candidati(anunt);
                 model.addAttribute("aplicari", aplicari);
+                model.addAttribute("id", id);
                 return "angajator/aplicari";
             }
             return "redirect:/angajator/anunturi";
@@ -99,4 +107,32 @@ public class AngajatorController {
         return "redirect:/angajator/anunturi";
     }
 
+
+    @GetMapping("/anunturi/agent/{id}")
+    public String selectareAplicariAI(@PathVariable Integer id, Model model) throws Exception {
+        Anunt anunt = anunturiService.getById(id);
+        Angajator currentUser = (Angajator) userService.getCurrentUser();
+        List<Anunt> anunturi = anunturiService.AngajatorAnunturi(currentUser);
+        if(anunturi.contains(anunt)) {
+            List<Candidat> aplicari = aplicareService.candidati(anunt);
+            Map<String, String> evaluariAI = new HashMap<>();
+            for(Candidat aplicare : aplicari) {
+                List<CV> cvs = cvRepository.findByCandidat(aplicare);
+                if(!cvs.isEmpty()) {
+                    CV cvActiv = cvs.getFirst();
+                    for (CV cv : cvs) if (cv.isActiv()) cvActiv = cv;
+                    String result = agentAngajatorService.proceseaza(ocrService.extractText(cvActiv.getId()), anunt);
+                    evaluariAI.put(
+                            aplicare.getEmail(),
+                            result
+                    );
+                }
+            }
+            model.addAttribute("id", id);
+            model.addAttribute("aplicari", aplicari);
+            model.addAttribute("evaluariAI", evaluariAI);
+            return "angajator/aplicari";
+        }
+        return "redirect:/angajator/{id}";
+    }
     }

@@ -62,7 +62,6 @@ public class CVController {
             cv.setData(file.getBytes());
             cv.setCandidat((Candidat) userService.getCurrentUser());
             cv.setActiv(true);
-            /*TO DO - DE FACUT STATUS ACTIV LA ACTUALUL CV SI DEZACTIVAT CEL ACTIV ANTERIOR (DACA E)*/
             cvRepository.save(cv);
             redirectAttributes.addFlashAttribute("success", "CV încărcat cu succes!");
             return "redirect:/profil";

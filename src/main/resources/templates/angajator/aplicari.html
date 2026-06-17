@@ -59,12 +59,18 @@
 
   </style>
 
+    <a th:href="@{/angajator/anunturi/agent/{id}(id=${id})}">
+    <button type="button" class="btn-submit" >
+      Filtrează cu AI
+    </button>
+    </a>
   <table>
     <thead>
     <tr>
       <th>Email</th>
       <th>Nume</th>
       <th>Profil</th>
+      <th th:if="${evaluariAI != null}">Evaluare AI</th>
     </tr>
     </thead>
     <tbody>
@@ -73,6 +79,8 @@
       <td th:text="${candidat.numeUser}"></td>
       <td>
         <a th:href="@{/profil/{id}(id=${candidat.idUser})}">Vezi profil</a>
+      </td>
+      <td th:if="${evaluariAI != null}" th:text="${evaluariAI[candidat.email]}">
       </td>
     </tr>
     </tbody>
@@ -89,4 +97,4 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
-</html>s
+</html>

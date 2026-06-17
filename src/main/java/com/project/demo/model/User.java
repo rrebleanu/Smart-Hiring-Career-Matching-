@@ -1,7 +1,8 @@
 package com.project.demo.model;
 
 import jakarta.persistence.*;
-import org.jspecify.annotations.Nullable;
+import org.springframework.lang.Nullable;
+
 import java.time.LocalDate;
 
 @Entity // This tells Hibernate to make a table

@@ -2,7 +2,7 @@ package com.project.demo.repository;
 
 import com.project.demo.model.CV;
 import com.project.demo.model.Candidat;
-import org.jspecify.annotations.Nullable;
+import org.springframework.lang.Nullable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

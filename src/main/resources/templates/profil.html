@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main style="padding: 2rem;">
+  <h1>Profilul meu</h1>
+
+  <div sec:authorize="hasRole('ANGAJATOR')">
+    <label>
+      <a href="/angajator/anunturi" class="btn-submit">Vezi anunturile tale</a>
+    </label>
+  </div>
+  <form th:action="@{/cv/upload}" method="post" enctype="multipart/form-data" style="margin-bottom: 2rem;">
+    <div sec:authorize="hasRole('CANDIDAT')">
+      <label>Încarcă CV (PDF):</label>
+      <div style="margin: 0.5rem 0;">
+        <label for="file">Selectează fișier (PDF sau DOCX)</label>
+        <input type="file" id="file" name="file"
+               accept=".pdf,.docx" required>
+      </div>
+      <button type="submit">Încarcă</button>
+    </div>
+  </form>
+
+  <div sec:authorize="hasRole('CANDIDAT')">
+  <h2 style="margin-bottom: 1rem;">CV-ul meu activ</h2>
+
+  <p th:if="${cvActiv == null}">
+    Nu ai niciun CV activ încă.
+  </p>
+  </div>
+  <div sec:authorize="hasRole('CANDIDAT')">
+    <table th:if="${cvActiv != null}" style="width: 100%; border-collapse: collapse;">
+      <thead>
+      <tr>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #ddd;">Nume fișier</th>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #ddd;">Tip</th>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #ddd;">Acțiuni</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td style="padding: 12px 16px; border-bottom: 1px solid #eee;"
+            th:text="${cvActiv.fileName}"></td>
+        <td style="padding: 12px 16px; border-bottom: 1px solid #eee;">
+          <span th:if="${cvActiv.fileType == 'application/pdf'}">PDF</span>
+          <span th:unless="${cvActiv.fileType == 'application/pdf'}">DOCX</span>
+        </td>
+        <td style="padding: 12px 16px; border-bottom: 1px solid #eee;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <a th:href="@{/cv/view/{id}(id=${cvActiv.id})}"
+               class="btn-submit" target="_blank"> Vezi</a>
+
+            <a th:href="@{/cv/download/{id}(id=${cvActiv.id})}"
+               class="btn-submit"> Descarcă</a>
+
+            <form th:action="@{/cv/delete/{id}(id=${cvActiv.id})}"
+                  method="post" style="display:inline; margin:0;"
+                  onsubmit="return confirm('Ești sigur că vrei să ștergi CV-ul activ?')">
+              <button type="submit" class="btn-submit" style="background:red;"> Șterge</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -8,23 +8,6 @@ import java.util.List;
 public class Candidat extends User {
 
     public Candidat() {
-        this.setRol("CANDIDAT"); // setat automat la creare
+        this.setRol("CANDIDAT");
     }
-
-//    public CV getCv() {
-//        return cv;
-//    }
-
-//    public void setCv(CV cv) {
-//        this.cv = cv;
-//    }
-
-//    // Getteri și setteri pentru noua listă
-//    public List<Aplicare> getAplicari() {
-//        return aplicari;
-//    }
-//
-//    public void setAplicari(List<Aplicare> aplicari) {
-//        this.aplicari = aplicari;
-//    }
 }

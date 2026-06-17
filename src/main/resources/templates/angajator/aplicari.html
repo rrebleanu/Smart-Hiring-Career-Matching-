@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:replace="~{fragments/head :: head}"></div>
+
+<body>
+
+<header>
+  <h1>Aplicari</h1>
+</header>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main>
+  <style>
+    main {
+      padding: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    thead {
+      background-color: #f5f5f5;
+    }
+
+    th, td {
+      padding: 12px 24px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      font-weight: 600;
+      color: #333;
+    }
+
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    tfoot td {
+      color: #666;
+      font-style: italic;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    a {
+      color: #8a1cb2;
+      text-decoration: none;
+    }
+
+  </style>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Email</th>
+      <th>Nume</th>
+      <th>Profil</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="candidat : ${aplicari}">
+      <td th:text="${candidat.email}"></td>
+      <td th:text="${candidat.numeUser}"></td>
+      <td>
+        <a th:href="@{/profil/{id}(id=${candidat.idUser})}">Vezi profil</a>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td th:text="${aplicari.size()} + ' candidati'"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    </tfoot>
+  </table>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>s

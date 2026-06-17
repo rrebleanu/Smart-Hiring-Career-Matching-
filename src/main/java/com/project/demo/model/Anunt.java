@@ -9,7 +9,7 @@ public class Anunt{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAnunt;
+    private Integer id;
 
     private String titlu;
 
@@ -27,8 +27,8 @@ public class Anunt{
     @JoinColumn(name = "id_angajator")
     private Angajator angajator;
 
-    public Integer getIdAnunt() { return idAnunt; }
-    public void setIdAnunt(Integer idAnunt) { this.idAnunt = idAnunt; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getTitlu() { return titlu; }
     public void setTitlu(String titlu) { this.titlu = titlu; }

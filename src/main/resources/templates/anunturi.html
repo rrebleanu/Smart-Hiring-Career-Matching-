@@ -21,7 +21,7 @@
 <a sec:authorize="hasRole('ANGAJATOR')" href="angajator/anunturi/adauga" class="btn-submit" style="text-decoration:none; margin:2px">Adauga Anunt</a>
 <!-- job-listing.html (fragment din pagina ta Thymeleaf) -->
 
-
+<h2 sec:authorize="isAnonymous()">Logati-va pentru a putea aplica!</h2>
 <div class="jobs-grid">
     <div class="job-card" th:each="anunt : ${anunturi}">
 
@@ -53,13 +53,19 @@
             </div>
         </div>
 
-        <div class="job-card__footer">
-            <a sec:authorize="hasRole('CANDIDAT')"
-               href=""
-               class="btn-submit">
-                <i class="ti ti-send" aria-hidden="true"></i>
-                Aplică acum
-            </a>
+        <div class="job-card__footer" sec:authorize="hasRole('CANDIDAT')">
+             <span th:if="${anunturiAplicate.contains(anunt.id)}" style="font-size:bold; color:#8a1cb2">
+            Ai aplicat deja
+            </span>
+            <form   th:unless="${anunturiAplicate.contains(anunt.id)}"
+                    th:action="@{/candidat/aplica/{id}(id=${anunt.id})}" method="post">
+                <button
+                        type="submit"
+                        class="btn-submit">
+                    <i class="ti ti-send" aria-hidden="true"></i>
+                    Aplică acum
+                </button>
+            </form>
         </div>
 
     </div>

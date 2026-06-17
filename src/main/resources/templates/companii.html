@@ -13,15 +13,12 @@
 <section class="companii-val">
     <h2>Companii-le care fac parte din programul nostru</h2>
     <ul>
-        <li>
-            <p>Company: XYZ Design</p>
-            <p>Location: India</p>
-            <p>Description: Good Web Developer</p>
-        </li>
-        <li>
-            <p>Company: XYZ Design</p>
-            <p>Location: India </p>
-            <p>Description:Good Graphic Designer</p>
+        <li th:each="companie : ${companii}">
+
+            <p>Nume companie: <span th:text=" ${companie.numeCompanie}" ></span></p>
+            <p>Locație: <span th:text=" ${companie.locatie}"></span></p>
+            <p>Domeniu: <span th:text=" ${companie.domeniu}" ></span></p>
+
         </li>
     </ul>
 </section>

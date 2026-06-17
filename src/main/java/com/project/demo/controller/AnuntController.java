@@ -1,11 +1,17 @@
 package com.project.demo.controller;
 
 import com.project.demo.model.Anunt;
+import com.project.demo.model.Candidat;
+import com.project.demo.model.User;
 import com.project.demo.repository.AnuntRepository;
 import com.project.demo.service.AnunturiService;
+import com.project.demo.service.AplicareService;
+import com.project.demo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller // Controller for handling Job Ads (Anunturi)
 @RequestMapping("/anunturi")
@@ -19,9 +25,13 @@ public class AnuntController {
 //    }
 
     private final AnunturiService anuntService;
-    AnuntController(AnunturiService anuntService)
+    private final UserService userService;
+    private final AplicareService aplicareService;
+    AnuntController(AnunturiService anuntService, UserService userService, AplicareService aplicareService)
     {
         this.anuntService = anuntService;
+        this.userService = userService;
+        this.aplicareService = aplicareService;
     }
 //
 //    @GetMapping("/adauga")
@@ -40,6 +50,12 @@ public class AnuntController {
     @GetMapping
     public String listaAnunturi(Model model) {
         model.addAttribute("anunturi", anuntService.getAll());
+        User currentUser = userService.getCurrentUser();
+        Set<Integer> anunturiAplicate;
+        if(currentUser instanceof Candidat user){
+            anunturiAplicate = aplicareService.anunturiAplicate(user);
+            model.addAttribute("anunturiAplicate", anunturiAplicate);
+        }
         return "anunturi";
     }
 //

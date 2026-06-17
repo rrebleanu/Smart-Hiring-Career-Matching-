@@ -3,25 +3,41 @@ package com.project.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "companies")
+@Table(name = "companii")
 public class Companie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCompanie; // corectat
+    private Integer id; // corectat
 
     private String numeCompanie; // corectat
 
-    private Double ratingCompanie; // corectat
+    private String locatie;
 
-    private Integer numarAngajati;
+    private String domeniu;
 
-    public Integer getIdCompanie() {
-        return idCompanie;
+    public String getDomeniu() {
+        return domeniu;
     }
 
-    public void setIdCompanie(Integer idCompanie) {
-        this.idCompanie = idCompanie;
+    public void setDomeniu(String domeniu) {
+        this.domeniu = domeniu;
+    }
+
+    public String getLocatie() {
+        return locatie;
+    }
+
+    public void setLocatie(String locatie) {
+        this.locatie = locatie;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer idCompanie) {
+        this.id = idCompanie;
     }
 
     public String getNumeCompanie() {
@@ -32,19 +48,5 @@ public class Companie {
         this.numeCompanie = numeCompanie;
     }
 
-    public Double getRatingCompanie() {
-        return ratingCompanie;
-    }
 
-    public void setRatingCompanie(Double ratingCompanie) {
-        this.ratingCompanie = ratingCompanie;
-    }
-
-    public Integer getNumarAngajati() {
-        return numarAngajati;
-    }
-
-    public void setNumarAngajati(Integer numarAngajati) {
-        this.numarAngajati = numarAngajati;
-    }
 }

@@ -1,5 +1,6 @@
 package com.project.demo.service;
 
+import com.project.demo.model.Anunt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -7,65 +8,101 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class AIService {
 
-    // Aici Spring Boot va "injecta" automat cheia din application.properties
     @Value("${gemini.api.key}")
     private String geminiApiKey;
 
     public String askGemini(String prompt) {
-        // Link-ul oficial către modelul gratuit și rapid Gemini 1.5 Flash
-        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
+        // Folosim ruta exactă pentru contul tău: gemini-2.5-flash
+        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiApiKey;
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Curățăm textul pentru a nu strica formatul JSON manual
+        // Curățăm textul
         String safePrompt = prompt.replace("\"", "'").replace("\n", " ");
-
-        // Acesta este formatul exact de pachet (JSON) pe care îl cere Google
         String requestBody = "{ \"contents\": [{ \"parts\": [{\"text\": \"" + safePrompt + "\"}] }] }";
 
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
         try {
-            // Trimitem pachetul către Google și primim răspunsul
             return restTemplate.postForObject(apiUrl, request, String.class);
         } catch (Exception e) {
-            System.out.println("Eroare AI: " + e.getMessage());
-            return "Eroare la comunicarea cu AI-ul.";
+            System.out.println("Eroare severă la conexiunea cu Google: " + e.getMessage());
+            return "EROARE_API";
         }
     }
 
     public Double calculeazaCompatibilitate(String textCV, String descriereJob) {
-        String prompt = "Ești un recrutor IT expert. Analizează următorul CV și următoarea descriere a jobului. " +
-                "Calculează un procent de compatibilitate între 0.0 și 100.0 bazat pe abilități, tehnologii și experiență. " +
-                "Răspunde DOAR cu numărul zecimal (fără text, fără simbolul %, fără explicații). " +
+        // PROMPT STRICT: Îl obligăm să ne dea DOAR un număr
+        String prompt = "Ești un recrutor IT expert. Analizează CV-ul și Jobul. " +
+                "Evaluează compatibilitatea dintre ele. " +
+                "Returnează STRICT un singur număr între 0 și 100. " +
+                "Nu scrie niciun alt cuvânt, nicio propoziție și NU include simbolul procent (%). Vreau DOAR numărul. " +
                 "CV: " + textCV + " | JOB: " + descriereJob;
 
         String raspunsBrut = askGemini(prompt);
+        System.out.println("RĂSPUNS DIRECT DE LA AI: " + raspunsBrut);
+
+        if (raspunsBrut.equals("EROARE_API")) {
+            return 50.0; // Fallback dacă a picat conexiunea
+        }
 
         try {
-            // Extragere simplă și rapidă a textului din structura JSON primită de la Google Gemini
-            // Evită adăugarea unei alte librării greoaie de parsing JSON
+            // Extragem valoarea din JSON
             String cautat = "\"text\": \"";
+            String textExtras = "";
+
             if (raspunsBrut.contains(cautat)) {
                 int start = raspunsBrut.indexOf(cautat) + cautat.length();
                 int end = raspunsBrut.indexOf("\"", start);
-                String textNumar = raspunsBrut.substring(start, end).trim();
-
-                // Curățăm textul extras de orice altceva în afară de cifre și punct
-                String numarCurat = textNumar.replaceAll("[^0-9.]", "");
-                return Double.parseDouble(numarCurat);
+                textExtras = raspunsBrut.substring(start, end);
+            } else {
+                textExtras = raspunsBrut;
             }
 
-            String numarCurat = raspunsBrut.replaceAll("[^0-9.]", "").trim();
+            // CURĂȚAREA SUPREMĂ: Păstrăm doar cifrele și punctul zecimal
+            String numarCurat = textExtras.replaceAll("[^0-9.]", "").trim();
+
+            // Dacă din greșeală a șters tot, evităm crash-ul
+            if (numarCurat.isEmpty()) {
+                System.out.println("AI-ul nu a returnat cifre valabile.");
+                return 50.0;
+            }
+
             return Double.parseDouble(numarCurat);
+
         } catch (Exception e) {
-            System.out.println("Nu s-a putut parsa procentul de la AI, folosim fallback de siguranță.");
-            return 50.0; // Valoare de siguranță în caz că structura sau formatul diferă
+            System.out.println("Nu s-a putut parsa procentul. Text brut: " + raspunsBrut);
+            return 50.0;
         }
+    }
+
+    public List<Map.Entry<Anunt, Double>> gasesteTop3Joburi(String textCV, List<Anunt> toateAnunturile) {
+        Map<Anunt, Double> scoruri = new HashMap<>();
+
+        int limita = Math.min(toateAnunturile.size(), 10);
+        for (int i = 0; i < limita; i++) {
+            Anunt anunt = toateAnunturile.get(i);
+            Double scor = calculeazaCompatibilitate(textCV, anunt.getDescriereJob());
+            scoruri.put(anunt, scor);
+
+            try {
+                Thread.sleep(2000); // Pauză de 2 secunde pentru a evita limitările Google
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return scoruri.entrySet().stream()
+                .sorted(Map.Entry.<Anunt, Double>comparingByValue().reversed())
+                .limit(3)
+                .collect(Collectors.toList());
     }
 }

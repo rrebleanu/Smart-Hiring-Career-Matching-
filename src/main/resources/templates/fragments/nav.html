@@ -5,6 +5,15 @@
 <nav th:fragment="nav">
   <ul>
     <li><a th:href="@{/}">Home</a></li>
+
+    <li sec:authorize="hasRole('CANDIDAT')">
+      <a th:href="@{/candidat/dashboard}">Dashboard Candidat</a>
+    </li>
+    <li sec:authorize="hasRole('ANGAJATOR')">
+      <a th:href="@{/angajator/dashboard}">Dashboard Angajator</a>
+    </li>
+
+
     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
     <li sec:authorize="isAuthenticated()">
       <form th:action="@{/logout}" method="post">

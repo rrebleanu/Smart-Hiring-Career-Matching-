@@ -8,7 +8,7 @@ public class CV {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCv;
-
+    @Column(length = 100000)
     private String descriereCandidat;
     private String telefon;
     private String experienta;

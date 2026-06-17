@@ -2,23 +2,56 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-
-<div th:replace="~{fragments/head :: head}"></div>
-
+<head>
+  <div th:replace="~{fragments/head :: head}"></div>
+</head>
 
 <body>
 <header>
-  <h1>Bine ati venit!</h1>
+  <h1>Bine ați venit în Panoul Candidatului!</h1>
 </header>
 
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<main>
+<main style="margin: 40px auto; padding: 20px; max-width: 800px; display: flex; flex-direction: column; align-items: center; gap: 30px;">
+
+  <h2 style="color: #fff; text-shadow: 1px 1px 4px rgba(0,0,0,0.2);">Panou de Control Candidat</h2>
+
+  <p th:if="${param.succes}" style="color: #1e4611; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px 25px; border-radius: 8px; font-weight: bold; width: 100%; max-width: 550px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    ✅ CV-ul tău în limba engleză a fost scanat cu succes de Agentul AI și salvat în profil!
+  </p>
+
+  <div style="width: 100%; max-width: 550px; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); text-align: center; display: flex; flex-direction: column; gap: 15px;">
+    <h3 style="color: #333; margin-bottom: 10px; font-size: 20px;">Explorează Oportunitățile</h3>
+
+    <a th:href="@{/candidat/recomandari}" class="btn-submit" style="background-color: #28a745; text-decoration: none; padding: 15px 30px; font-size: 16px; border-radius: 8px; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4); font-weight: bold; display: flex; justify-content: center; align-items: center; transition: 0.3s;">
+      🚀 Găsește Top 3 Joburi AI
+    </a>
+
+    <a th:href="@{/anunturi}" style="text-decoration: none; color: #555; font-size: 15px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background-color: #f8f9fa; font-weight: bold; display: flex; justify-content: center; align-items: center; transition: 0.3s;">
+      🔍 Vezi și alte anunțuri disponibile
+    </a>
+  </div>
+
+  <div style="width: 100%; max-width: 550px; background: #ffffff; padding: 35px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); text-align: center;">
+    <h3 style="margin-bottom: 10px; color: #333; font-size: 20px;">Încarcă Documentul CV (PDF sau Poză)</h3>
+    <p style="font-size: 14px; color: #666; margin-bottom: 30px;">
+      Sistemul va procesa automat textul utilizând inteligența artificială locală/nativă.
+    </p>
+
+    <form th:action="@{/candidat/incarca-cv}" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      <input type="file" name="fisierCV" accept="application/pdf, image/png, image/jpeg" required
+             style="padding: 12px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; width: 100%; max-width: 380px; cursor: pointer; font-size: 14px; color: #555;">
+
+      <button type="submit" class="btn-submit" style="border: none; padding: 12px 28px; font-size: 15px; box-shadow: 0 3px 8px rgba(138, 28, 178, 0.3); transition: transform 0.2s ease;">
+        <i class="ti ti-upload"></i> Scanează și Salvează CV
+      </button>
+    </form>
+  </div>
 
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
-
 </html>

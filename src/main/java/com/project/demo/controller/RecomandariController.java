@@ -1,65 +1,67 @@
-//package com.project.demo.controller;
-//
-//import com.project.demo.model.Anunt;
-//import com.project.demo.model.CV;
-//import com.project.demo.model.User;
-//import com.project.demo.model.Candidat;
-//import com.project.demo.repository.AnuntRepository;
-//import com.project.demo.repository.CVRepository;
-//import com.project.demo.repository.UserRepository;
-//import com.project.demo.service.AIService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//
-//import java.security.Principal;
-//import java.util.List;
-//import java.util.Map;
-//
-//@Controller
-//public class RecomandariController {
-//
-//    @Autowired
-//    private AIService aiService;
-//
-//    @Autowired
-//    private AnuntRepository anuntRepository;
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    private CVRepository cvRepository;
-//
-//    @GetMapping("/candidat/recomandari")
-//    public String veziTop3Recomandari(Model model, Principal principal) {
-//        // 1. Luăm utilizatorul logat curent
-//        User userLogat = userRepository.findByEmail(principal.getName());
-//
-//        // Transformăm explicit User-ul în Candidat (Casting)
-//        Candidat candidat = (Candidat) userLogat;
-//
-//        // Verificăm dacă are CV încărcat
-//        if (cvRepository.findByCandidat(candidat) == null || cvRepository.findByCandidat(candidat).isEmpty()) {
-//            return "redirect:/candidat/dashboard?eroare=FaraCV";
-//        }
-//
-//        // 2. Extragem textul din CV-ul candidatului (luăm ultimul/primul CV salvat)
-//        List<CV> cvs = cvRepository.findByCandidat(candidat);
-//        CV cvActiv = cvs.getFirst();
-//        for (CV cv : cvs) if (cv.isActiv()) cvActiv = cv;
-//        String textCV = cvActiv.getDescriereCandidat();
-//
-//        // 3. Luăm toate anunțurile din baza de date
-//        List<Anunt> toateAnunturile = (List<Anunt>) anuntRepository.findAll();
-//
-//        // 4. Folosim AI-ul ca să facă magia și să găsească TOP 3
-//        List<Map.Entry<Anunt, Double>> top3Joburi = aiService.gasesteTop3Joburi(textCV, toateAnunturile);
-//
-//        // 5. Trimitem rezultatul către pagina HTML
-//        model.addAttribute("topJoburi", top3Joburi);
-//
-//        return "recomandari"; // Numele paginii HTML
-//    }
-//}
+package com.project.demo.controller;
+
+import com.project.demo.model.Anunt;
+import com.project.demo.model.CV;
+import com.project.demo.model.Candidat;
+import com.project.demo.repository.AnuntRepository;
+import com.project.demo.repository.CVRepository;
+import com.project.demo.service.AIService;
+import com.project.demo.service.DocumentOCRService;
+import com.project.demo.service.UserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class RecomandariController {
+
+    private final AIService aiService;
+    private final AnuntRepository anuntRepository;
+    private final UserService userService;
+    private final CVRepository cvRepository;
+    private final DocumentOCRService documentOCRService;
+
+    public RecomandariController(AIService aiService, AnuntRepository anuntRepository, UserService userService, CVRepository cvRepository, DocumentOCRService documentOCRService) {
+        this.aiService = aiService;
+        this.anuntRepository = anuntRepository;
+        this.userService = userService;
+        this.cvRepository = cvRepository;
+        this.documentOCRService = documentOCRService;
+    }
+
+    @GetMapping("/candidat/recomandari")
+    public String veziTop3Recomandari(Model model) {
+        Candidat candidat = (Candidat) userService.getCurrentUser();
+
+        // Căutăm CV-ul candidatului
+        List<CV> listaCvs = (List<CV>) cvRepository.findAll();
+        CV cvCurent = null;
+        for (CV cv : listaCvs) {
+            if (cv.getCandidate() != null && cv.getCandidate().getIdUser().equals(candidat.getIdUser())) {
+                cvCurent = cv;
+                break;
+            }
+        }
+
+        if (cvCurent == null || cvCurent.getData() == null) {
+            return "redirect:/candidat/profil?eroare=FaraCV";
+        }
+
+        // Folosim direct DocumentOCRService-ul colegului dându-i doar ID-ul!
+        String textCV = "";
+        try {
+            textCV = documentOCRService.extractText(cvCurent.getId());
+        } catch (Exception e) {
+            System.out.println("Eroare la OCR: " + e.getMessage());
+        }
+
+        List<Anunt> toateAnunturile = (List<Anunt>) anuntRepository.findAll();
+        List<Map.Entry<Anunt, Double>> top3Joburi = aiService.gasesteTop3Joburi(textCV, toateAnunturile);
+
+        model.addAttribute("topJoburi", top3Joburi);
+        return "recomandari";
+    }
+}

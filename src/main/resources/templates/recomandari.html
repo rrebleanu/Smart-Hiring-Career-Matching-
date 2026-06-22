@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <div th:replace="~{fragments/head :: head}"></head>
+    <div th:replace="~{fragments/head :: head}"></div>
 </head>
 
 <body>
@@ -57,7 +57,7 @@
             </div>
 
             <div class="job-card__footer">
-                <a th:href="@{/aplica/{id}(id=${entry.key.idAnunt})}" class="btn-submit" style="background-color: #8a1cb2; text-decoration: none; color: white; display: inline-block; padding: 10px 15px; border-radius: 4px;">
+                <a th:href="@{/aplica/{id}(id=${entry.key.id})}" class="btn-submit" style="background-color: #8a1cb2; text-decoration: none; color: white; display: inline-block; padding: 10px 15px; border-radius: 4px;">
                     <i class="ti ti-send" aria-hidden="true"></i> Aplică la această recomandare
                 </a>
             </div>
@@ -66,8 +66,8 @@
     </div>
 
     <div style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
-        <a th:href="@{/candidat/dashboard}" class="btn-submit" style="background-color: #555; text-decoration: none; color: white; padding: 10px 20px; border-radius: 4px; display: inline-block;">
-            ⬅️ Înapoi la Dashboard
+        <a th:href="@{/profil}" class="btn-submit" style="background-color: #555; text-decoration: none; color: white; padding: 10px 20px; border-radius: 4px; display: inline-block;">
+            ⬅️ Înapoi la Profil
         </a>
     </div>
 

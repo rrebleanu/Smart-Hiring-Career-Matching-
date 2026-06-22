@@ -36,7 +36,7 @@ public class RecomandariController {
     public String veziTop3Recomandari(Model model) {
         Candidat candidat = (Candidat) userService.getCurrentUser();
 
-        // Căutăm CV-ul candidatului
+        // Căutăm CV-ul candidatului logat
         List<CV> listaCvs = (List<CV>) cvRepository.findAll();
         CV cvCurent = null;
         for (CV cv : listaCvs) {
@@ -46,7 +46,7 @@ public class RecomandariController {
             }
         }
 
-        // CORECTAT: Am sters /candidat/ din link-ul de redirect pentru a evita eroarea 404
+        // Dacă nu are CV, redirect corect către profil
         if (cvCurent == null || cvCurent.getData() == null) {
             return "redirect:/profil?eroare=FaraCV";
         }
@@ -55,7 +55,7 @@ public class RecomandariController {
         try {
             textCV = documentOCRService.extractText(cvCurent.getId());
         } catch (Exception e) {
-            System.out.println("Eroare la OCR: " + e.getMessage());
+            System.out.println("Eroare la extragerea OCR: " + e.getMessage());
         }
 
         List<Anunt> toateAnunturile = (List<Anunt>) anuntRepository.findAll();

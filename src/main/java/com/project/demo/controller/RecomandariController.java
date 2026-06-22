@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class RecomandariController {
@@ -36,7 +38,7 @@ public class RecomandariController {
     public String veziTop3Recomandari(Model model) {
         Candidat candidat = (Candidat) userService.getCurrentUser();
 
-        // Căutăm CV-ul candidatului logat
+        // 1. Căutăm CV-ul candidatului logat
         List<CV> listaCvs = (List<CV>) cvRepository.findAll();
         CV cvCurent = null;
         for (CV cv : listaCvs) {
@@ -46,11 +48,12 @@ public class RecomandariController {
             }
         }
 
-        // Dacă nu are CV, redirect corect către profil
+        // 2. Dacă nu are CV, redirect corect către profil
         if (cvCurent == null || cvCurent.getData() == null) {
             return "redirect:/profil?eroare=FaraCV";
         }
 
+        // 3. Extragem textul cu OCR
         String textCV = "";
         try {
             textCV = documentOCRService.extractText(cvCurent.getId());
@@ -58,8 +61,40 @@ public class RecomandariController {
             System.out.println("Eroare la extragerea OCR: " + e.getMessage());
         }
 
+        // 4. Luăm joburile și aplicăm limita pentru a nu bloca serverul
         List<Anunt> toateAnunturile = (List<Anunt>) anuntRepository.findAll();
-        List<Map.Entry<Anunt, Double>> top3Joburi = aiService.gasesteTop3Joburi(textCV, toateAnunturile);
+
+        int limita = Math.min(toateAnunturile.size(), 15);
+        List<Anunt> anunturiDeProcesat = toateAnunturile.subList(0, limita);
+
+        Map<Anunt, Double> scoruri = new HashMap<>();
+
+        System.out.println("Controller: Începem procesarea individuală pentru " + anunturiDeProcesat.size() + " joburi...");
+
+        // 5. Bucla iterativă (Apeluri multiple către AI)
+        for (Anunt anunt : anunturiDeProcesat) {
+
+            // Apelăm AI-ul STRICT pentru acest job
+            Double scor = aiService.calculeazaScorPentruJob(textCV, anunt);
+            scoruri.put(anunt, scor);
+
+            System.out.println("Controller: Job ID " + anunt.getId() + " analizat. Scor AI: " + scor + "%");
+
+            try {
+                // Pauză obligatorie de 0.5s între apeluri multiple pentru a nu primi "429 Too Many Requests"
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        System.out.println("Controller: Procesare finalizată! Calculăm top 3...");
+
+        // 6. Sortăm harta și extragem Top 3 cele mai bune joburi
+        List<Map.Entry<Anunt, Double>> top3Joburi = scoruri.entrySet().stream()
+                .sorted(Map.Entry.<Anunt, Double>comparingByValue().reversed())
+                .limit(3)
+                .collect(Collectors.toList());
 
         model.addAttribute("topJoburi", top3Joburi);
         return "recomandari";

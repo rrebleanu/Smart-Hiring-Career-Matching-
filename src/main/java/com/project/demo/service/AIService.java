@@ -39,7 +39,6 @@ public class AIService {
         for (Anunt anunt : anunturiDeProcesat) {
             promptBuilder.append("ID ").append(anunt.getId()).append(": ").append(anunt.getDescriereJob()).append("\n");
         }
-        System.out.println("DEBUG CHEIE: " + System.getenv("OPENAI_API_KEY"));
         String raspunsBrut;
         try {
             raspunsBrut = chatClient.prompt()

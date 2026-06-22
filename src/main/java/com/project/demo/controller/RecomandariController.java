@@ -46,11 +46,11 @@ public class RecomandariController {
             }
         }
 
+        // CORECTAT: Am sters /candidat/ din link-ul de redirect pentru a evita eroarea 404
         if (cvCurent == null || cvCurent.getData() == null) {
-            return "redirect:/candidat/profil?eroare=FaraCV";
+            return "redirect:/profil?eroare=FaraCV";
         }
 
-        // Folosim direct DocumentOCRService-ul colegului dându-i doar ID-ul!
         String textCV = "";
         try {
             textCV = documentOCRService.extractText(cvCurent.getId());

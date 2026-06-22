@@ -18,9 +18,7 @@ public class AIService {
     private String geminiApiKey;
 
     public String askGemini(String prompt) {
-//        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + geminiApiKey;
-//        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
-        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" + geminiApiKey;
+        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + geminiApiKey;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -38,40 +36,74 @@ public class AIService {
         }
     }
 
-    public Double calculeazaCompatibilitate(String textCV, String descriereJob) {
-        String prompt = "Ești un recrutor IT. Analizează CV-ul și Jobul. Returnează STRICT un singur număr între 0 și 100. Nu scrie alt cuvânt și NU include simbolul %. Vreau DOAR numărul. CV: " + textCV + " | JOB: " + descriereJob;
-        String raspunsBrut = askGemini(prompt);
-
-        if (raspunsBrut.equals("EROARE_API")) return 50.0;
-
-        try {
-            String cautat = "\"text\": \"";
-            String textExtras = raspunsBrut.contains(cautat) ?
-                    raspunsBrut.substring(raspunsBrut.indexOf(cautat) + cautat.length(), raspunsBrut.indexOf("\"", raspunsBrut.indexOf(cautat) + cautat.length())) : raspunsBrut;
-
-            String numarCurat = textExtras.replaceAll("[^0-9.]", "").trim();
-            return numarCurat.isEmpty() ? 50.0 : Double.parseDouble(numarCurat);
-        } catch (Exception e) {
-            return 50.0;
-        }
-    }
-
     public List<Map.Entry<Anunt, Double>> gasesteTop3Joburi(String textCV, List<Anunt> toateAnunturile) {
         Map<Anunt, Double> scoruri = new HashMap<>();
+
+        if (toateAnunturile == null || toateAnunturile.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         int limita = Math.min(toateAnunturile.size(), 10);
+        List<Anunt> anunturiDeProcesat = toateAnunturile.subList(0, limita);
 
-        // Caută această secțiune și pune 4000 în loc de 2000:
-        for (int i = 0; i < limita; i++) {
-            Anunt anunt = toateAnunturile.get(i);
-            scoruri.put(anunt, calculeazaCompatibilitate(textCV, anunt.getDescriereJob()));
+        StringBuilder promptBuilder = new StringBuilder();
+        promptBuilder.append("Esti un recrutor IT. Analizeaza acest CV si lista de Joburi. Evalueaza compatibilitatea (de la 0 la 100) pentru FIECARE job. ");
+        promptBuilder.append("Returneaza STRICT pe un singur rand, separate prin virgula, in formatul ID:SCOR. Fara alte cuvinte, fara markdown, fara cod. Exemplu raspuns perfect: 1:85.5, 2:40.0, 3:92.1\n\n");
+        promptBuilder.append("CV:\n").append(textCV).append("\n\nJOBURI:\n");
 
-            // Mărim pauza la 4 secunde (4000 ms) pentru a nu supăra serverele Google
-            try { Thread.sleep(4000); } catch (InterruptedException ignored) {}
+        for (Anunt anunt : anunturiDeProcesat) {
+            // CORECTAT: Folosim getId() pentru ca asa se numeste in clasa ta Anunt
+            promptBuilder.append("ID ").append(anunt.getId()).append(": ").append(anunt.getDescriereJob()).append("\n");
+        }
+
+        String raspunsBrut = askGemini(promptBuilder.toString());
+
+        String textExtras = extrageTextDinJSON(raspunsBrut);
+        Map<Integer, Double> idScorMap = parseazaScoruri(textExtras);
+
+        for (Anunt anunt : anunturiDeProcesat) {
+            // CORECTAT: Folosim getId()
+            Double scor = idScorMap.getOrDefault(anunt.getId(), 50.0);
+            scoruri.put(anunt, scor);
         }
 
         return scoruri.entrySet().stream()
                 .sorted(Map.Entry.<Anunt, Double>comparingByValue().reversed())
                 .limit(3)
                 .collect(Collectors.toList());
+    }
+
+    private String extrageTextDinJSON(String json) {
+        if (json.equals("EROARE_API")) return "";
+        try {
+            String cautat = "\"text\": \"";
+            if (json.contains(cautat)) {
+                int start = json.indexOf(cautat) + cautat.length();
+                int end = json.indexOf("\"", start);
+                String text = json.substring(start, end);
+                return text.replace("\\n", " ").replace("\\", "").trim();
+            }
+        } catch (Exception e) {
+            System.out.println("Eroare la extragere text JSON: " + e.getMessage());
+        }
+        return json;
+    }
+
+    private Map<Integer, Double> parseazaScoruri(String textExtras) {
+        Map<Integer, Double> idScorMap = new HashMap<>();
+        try {
+            String[] perechi = textExtras.split(",");
+            for (String pereche : perechi) {
+                String[] parti = pereche.split(":");
+                if (parti.length == 2) {
+                    Integer id = Integer.parseInt(parti[0].replaceAll("[^0-9]", ""));
+                    Double scor = Double.parseDouble(parti[1].replaceAll("[^0-9.]", ""));
+                    idScorMap.put(id, scor);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Eroare la parsarea scorurilor din AI: " + e.getMessage());
+        }
+        return idScorMap;
     }
 }

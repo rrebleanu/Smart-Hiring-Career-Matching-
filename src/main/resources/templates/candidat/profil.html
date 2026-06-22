@@ -4,67 +4,45 @@
 <body>
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<main style="padding: 2rem; max-width: 900px; margin: 0 auto;">
-  <h1>Profilul meu</h1>
+<main style="padding: 2rem;">
+  <h1>Profil candidat</h1>
 
-  <div sec:authorize="hasRole('ANGAJATOR')">
-    <label>
-      <a href="/angajator/anunturi" class="btn-submit">Vezi anunturile tale</a>
-    </label>
-  </div>
 
-  <form th:action="@{/cv/upload}" method="post" enctype="multipart/form-data" style="margin-bottom: 2rem;">
-    <div sec:authorize="hasRole('CANDIDAT')">
-      <label style="font-weight: bold; color: #ffffff;">Încarcă CV (PDF):</label>
-      <div style="margin: 0.5rem 0;">
-        <label for="file">Selectează fișier (PDF sau DOCX)</label>
-        <input type="file" id="file" name="file" accept=".pdf" required>
-      </div>
-      <button type="submit" class="btn-submit">Încarcă</button>
-    </div>
-  </form>
+  <h2 style="margin-bottom: 1rem;">CV-ul activ</h2>
 
-  <div sec:authorize="hasRole('CANDIDAT')">
-    <h2 style="margin-bottom: 1rem; justify-content: flex-start;">CV-ul meu activ</h2>
-    <p th:if="${cvActiv == null}">
-      Nu ai niciun CV activ încă.
-    </p>
-  </div>
+  <p th:if="${cvActiv == null}">
+    Candidatul inca nu are CV activ.
+  </p>
 
-  <div sec:authorize="hasRole('CANDIDAT')">
-    <table th:if="${cvActiv != null}" style="width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+  <div>
+    <table th:if="${cvActiv != null}" style="width: 100%; border-collapse: collapse;">
       <thead>
-      <tr style="background-color: #8a1cb2; color: #ffffff;">
-        <th style="padding: 12px 16px; text-align: left;">Nume fișier</th>
-        <th style="padding: 12px 16px; text-align: left;">Tip</th>
-        <th style="padding: 12px 16px; text-align: left;">Acțiuni</th>
+      <tr>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #ddd;">Nume fișier</th>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #ddd;">Tip</th>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #ddd;">Acțiuni</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #eee; color: #333;" th:text="${cvActiv.fileName}"></td>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #eee; color: #333;">
-          <span th:if="${cvActiv.fileType == 'application/pdf'}" style="background: #e8f0fe; color: #1a56db; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">PDF</span>
-          <span th:unless="${cvActiv.fileType == 'application/pdf'}" style="background: #e2f7ed; color: #14532d; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">DOCX</span>
+        <td style="padding: 12px 16px; border-bottom: 1px solid #eee;"
+            th:text="${cvActiv.fileName}"></td>
+        <td style="padding: 12px 16px; border-bottom: 1px solid #eee;">
+          <span th:if="${cvActiv.fileType == 'application/pdf'}">PDF</span>
+          <span th:unless="${cvActiv.fileType == 'application/pdf'}">DOCX</span>
         </td>
         <td style="padding: 12px 16px; border-bottom: 1px solid #eee;">
           <div style="display: flex; gap: 8px; align-items: center;">
-            <a th:href="@{/cv/view/{id}(id=${cvActiv.id})}" class="btn-submit" target="_blank"> Vezi</a>
-            <a th:href="@{/cv/download/{id}(id=${cvActiv.id})}" class="btn-submit" style="background-color: #555555;"> Descarcă</a>
-            <form th:action="@{/cv/delete/{id}(id=${cvActiv.id})}" method="post" style="display:inline; margin:0;" onsubmit="return confirm('Ești sigur că vrei să ștergi CV-ul activ?')">
-              <button type="submit" class="btn-submit" style="background:red;"> Șterge</button>
-            </form>
+            <a th:href="@{/cv/view/{id}(id=${cvActiv.id})}"
+               class="btn-submit" target="_blank"> Vezi</a>
+
+            <a th:href="@{/cv/download/{id}(id=${cvActiv.id})}"
+               class="btn-submit"> Descarcă</a>
           </div>
         </td>
       </tr>
       </tbody>
     </table>
-
-    <div th:if="${cvActiv != null}" style="text-align: center; margin-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1.5rem;">
-      <a href="/candidat/recomandari" class="btn-submit" style="background-color: #28a745; padding: 12px 24px; font-size: 16px; text-decoration: none; display: inline-block; border-radius: 8px;">
-        ✨ Descoperă Top 3 Joburi cu AI
-      </a>
-    </div>
   </div>
 </main>
 

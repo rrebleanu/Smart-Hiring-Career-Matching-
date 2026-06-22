@@ -121,11 +121,14 @@ public class AngajatorController {
                 if(!cvs.isEmpty()) {
                     CV cvActiv = cvs.getFirst();
                     for (CV cv : cvs) if (cv.isActiv()) cvActiv = cv;
-                    String result = agentAngajatorService.proceseaza(ocrService.extractText(cvActiv.getId()), anunt);
-                    evaluariAI.put(
-                            aplicare.getEmail(),
-                            result
-                    );
+                    if(cvActiv.isActiv()) {
+                        String result = agentAngajatorService.proceseaza(ocrService.extractText(cvActiv.getId()), anunt);
+
+                        evaluariAI.put(
+                                aplicare.getEmail(),
+                                result
+                        );
+                    }
                 }
             }
             model.addAttribute("id", id);

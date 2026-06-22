@@ -55,9 +55,11 @@
                     <strong th:text="${entry.key.timpDeLucru}"></strong>
                 </div>
             </div>
-
-            <div class="job-card__footer">
-                <a th:href="@{/aplica/{id}(id=${entry.key.id})}" class="btn-submit" style="background-color: #8a1cb2; text-decoration: none; color: white; display: inline-block; padding: 10px 15px; border-radius: 4px;">
+            <span th:if="${anunturiAplicate.contains(entry.key.id)}" style="font-size:bold; color:#8a1cb2">
+            Ai aplicat deja
+            </span>
+            <div th:unless="${anunturiAplicate.contains(entry.key.id)}" class="job-card__footer">
+                <a th:action="@{/candidat/aplica/{id}(id=${entry.key.id})}" class="btn-submit" style="background-color: #8a1cb2; text-decoration: none; color: white; display: inline-block; padding: 10px 15px; border-radius: 4px;">
                     <i class="ti ti-send" aria-hidden="true"></i> Aplică la această recomandare
                 </a>
             </div>

@@ -3,9 +3,11 @@ package com.project.demo.controller;
 import com.project.demo.model.Anunt;
 import com.project.demo.model.CV;
 import com.project.demo.model.Candidat;
+import com.project.demo.model.User;
 import com.project.demo.repository.AnuntRepository;
 import com.project.demo.repository.CVRepository;
 import com.project.demo.service.AIService;
+import com.project.demo.service.AplicareService;
 import com.project.demo.service.DocumentOCRService;
 import com.project.demo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.lang.Boolean.TRUE;
 
 @Controller
 public class RecomandariController {
@@ -25,13 +30,15 @@ public class RecomandariController {
     private final UserService userService;
     private final CVRepository cvRepository;
     private final DocumentOCRService documentOCRService;
+    private final AplicareService aplicareService;
 
-    public RecomandariController(AIService aiService, AnuntRepository anuntRepository, UserService userService, CVRepository cvRepository, DocumentOCRService documentOCRService) {
+    public RecomandariController(AplicareService aplicareService, AIService aiService, AnuntRepository anuntRepository, UserService userService, CVRepository cvRepository, DocumentOCRService documentOCRService) {
         this.aiService = aiService;
         this.anuntRepository = anuntRepository;
         this.userService = userService;
         this.cvRepository = cvRepository;
         this.documentOCRService = documentOCRService;
+        this.aplicareService = aplicareService;
     }
 
     @GetMapping("/candidat/recomandari")
@@ -39,7 +46,7 @@ public class RecomandariController {
         Candidat candidat = (Candidat) userService.getCurrentUser();
 
         // 1. Căutăm CV-ul candidatului logat
-        List<CV> listaCvs = (List<CV>) cvRepository.findAll();
+        List<CV> listaCvs = (List<CV>) cvRepository.findByActiv(TRUE);
         CV cvCurent = null;
         for (CV cv : listaCvs) {
             if (cv.getCandidate() != null && cv.getCandidate().getIdUser().equals(candidat.getIdUser())) {
@@ -97,6 +104,12 @@ public class RecomandariController {
                 .collect(Collectors.toList());
 
         model.addAttribute("topJoburi", top3Joburi);
+        User currentUser = userService.getCurrentUser();
+        Set<Integer> anunturiAplicate;
+        anunturiAplicate = aplicareService.anunturiAplicate((Candidat) currentUser);
+        model.addAttribute("anunturiAplicate", anunturiAplicate);
+
+
         return "recomandari";
     }
 }

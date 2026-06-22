@@ -12,6 +12,6 @@ public interface CVRepository extends CrudRepository<CV, Integer> {
     List<CV> findByCandidat(Candidat candidat);
     List<CV> findByFileType(String fileType);
 
-    Optional<CV> findByActiv(boolean b);
+    List<CV> findByActiv(boolean b);
     Optional<CV> findByCandidatAndActiv(Candidat candidat, boolean activ);
 }

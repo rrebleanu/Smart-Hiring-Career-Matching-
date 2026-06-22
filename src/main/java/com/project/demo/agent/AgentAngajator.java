@@ -21,11 +21,11 @@ public class AgentAngajator  {
             JOB DESCRIPTION (IN ROMANIAN OR ENGLISH):
             %s
 
-            CV (ROMANIAN OR ENGLISH):
+            CV TEXT (ROMANIAN OR ENGLISH):
             %s
-
+            If CV doesn't exit score is 0.
             Give a score from 0 to 100.
-            Explain why.
+            Explain in one phrase.
             """.formatted(jobDescription, cvText);
 
 

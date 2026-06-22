@@ -11,7 +11,7 @@ import com.project.demo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
+//import jakarta.servlet.http.HttpSession;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller // Controller for Candidates

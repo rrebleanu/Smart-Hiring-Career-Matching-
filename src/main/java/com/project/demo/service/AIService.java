@@ -15,6 +15,11 @@ public class AIService {
 
     // Această metodă analizează UN SINGUR job în raport cu CV-ul și returnează doar nota (procentul)
     public Double calculeazaScorPentruJob(String textCV, Anunt anunt) {
+
+        if (textCV.length() > 12000) {
+            textCV = textCV.substring(0, 12000);
+        }
+
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append("Ești un expert în recrutare tehnică (HR). Analizează CV-ul și Jobul de mai jos.\n");
         promptBuilder.append("Evaluează compatibilitatea (de la 0.0 la 100.0) între CV și acest Job.\n");

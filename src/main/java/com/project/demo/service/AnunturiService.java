@@ -30,7 +30,7 @@ public class AnunturiService {
 
     //     Metodă care extrage un anunț specific după ID-ul său
     public Anunt getAnuntById(Integer id) {
-        return anuntRepository.findById(id).orElse(null);
+        return anuntRepository.findById(id).orElseThrow(null);
     }
 
     // Metodă care șterge definitiv un anunț din baza de date
